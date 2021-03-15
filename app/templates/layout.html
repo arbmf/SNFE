@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.7/css/mdb.min.css" rel="stylesheet">
+  <!-- Local Files -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='mdb.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+  <link rel="icon" href="http://example.com/favicon.png">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  {% if title %}
+  <title>Second Innings - {{ title }}</title>
+  {% else %}
+  <title>Second Innings</title>
+  {% endif %}
+</head>
+
+<body class="fixed-sn">
+
+  <!--Double navigation-->
+  <header style="color: white">
+    <nav class="navbar blue-gradient fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav">
+      <!-- Breadcrumb-->
+      <!-- <a class="custom-nav" href="#">Navbar</a> -->
+      <a class="navbar-brand" href="{{ url_for('main.home') }}"
+        style="font-size: 20px; margin-left: 10px; font-weight: 900;"><strong>Second Innings</strong></a>
+      <ul class="nav navbar-nav nav-flex-icons ml-auto">
+        {% if current_user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            Community
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
+            aria-labelledby="navbarDropdownMenuLink-55">
+            <a class="dropdown-item" href="{{ url_for('main.home') }}">Posts</a>
+            <a class="dropdown-item" href="{{ url_for('main.family') }}">Family</a>
+            <a class="dropdown-item" href="{{ url_for('main.chatroom') }}">Chat Rooms</a>
+            <a class="dropdown-item" href="{{ url_for('main.group') }}">Groups</a>
+              <a class="dropdown-item" href="{{ url_for('main.dating') }}">Dating</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            Work
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
+            aria-labelledby="navbarDropdownMenuLink-55">
+            <a class="dropdown-item" href="{{ url_for('main.job') }}">Job Opportunities</a>
+            <a class="dropdown-item" href="{{ url_for('main.volunteer') }}">Volunteer Opportunities</a>
+          </div>
+        </li>
+        <li class=" nav-item">
+            <a class="nav-link waves-effect waves-light {% if active == 'living' %} activenav {% endif %}"
+              href="{{ url_for('main.living') }}">
+            Living
+          </a>
+        </li>
+        <li class=" nav-item">
+            <a class="nav-link waves-effect waves-light {% if active == 'games' %} activenav {% endif %}"
+              href="{{ url_for('main.game') }}">
+            Games
+          </a>
+        </li>
+        <li class=" nav-item">
+            <a class="nav-link waves-effect waves-light {% if active == 'schedule' %} activenav {% endif %}"
+              href="{{ url_for('main.calendar')}}">
+            Schedule
+          </a>
+        </li>
+        <li class=" nav-item">
+            <a class="nav-link waves-effect waves-light {% if active == 'news' %} activenav {% endif %}"
+              href="{{ url_for('main.news') }}">
+            News
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            Friends
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
+            aria-labelledby="navbarDropdownMenuLink-55">
+            <a class="dropdown-item" href="{{ url_for('main.friends',email=current_user.email) }}">Friends</a>
+            <a class="dropdown-item" href="{{ url_for('main.suggested_people') }}">Add_Friends</a>
+          </div>
+        </li>
+        <li class=" nav-item" style="margin-left: 5px; margin-right: 10px;">
+              <a class="nav-link waves-effect waves-light" href="{{ url_for('main.search') }}">
+                <i class="fas fa-search" aria-hidden="true"></i>
+              </a>
+        </li>
+        <li class="nav-item avatar dropdown" style="margin-top: 5px;">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <img src="{{ url_for('static', filename='profile_pictures/' + current_user.ProfilePicture) }}"
+              class="rounded-circle z-depth-0" alt="avatar image">
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
+            aria-labelledby="navbarDropdownMenuLink-55">
+            <a class="dropdown-item" href="{{ url_for('users.profile_update') }}">Account Settings</a>
+            <a class="dropdown-item" href="{{ url_for('users.logout') }}">Logout</a>
+          </div>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link btn" href="{{ url_for('users.login') }}"
+            style="padding: 5px 10px 5px 10px; border: 1px solid white">
+            <span class="clearfix d-none d-sm-inline-block ">Sign in</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn peach-gradient" href="{{ url_for('users.register') }}"
+            style="padding: 5px 10px 5px 10px">
+            <span class="clearfix d-none d-sm-inline-block">Sign up</span></a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+    <!-- /.Navbar -->
+  </header>
+  <!--/.Double navigation-->
+
+
+
+
+  <div style="margin-top: 70px;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}" role="alert">
+      {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <!-- This is where the inherited html outputted -->
+    {% block content %}{% endblock %}
+  </div>
+
+
+
+
+  <!-- Footer -->
+  <footer class="page-footer font-small unique-color-dark">
+
+  </footer>
+  <!-- Footer -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.7/js/mdb.min.js"></script>
+  <script href="{{ url_for('static', filename='mdb.min.js') }}"></script>
+</body>
+
+</html>

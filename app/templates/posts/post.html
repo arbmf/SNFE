@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block content%}
+<meta property="og:url" content="{{ url_for('posts.post', postID=post.id) }}" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="{{ post.Title }}" />
+<meta property="og:description" content="{{ post.Content }}" />
+<meta property="og:image" content="{{ url_for('static', filename='post_images/' +
+post.ImageFile) }}" />
+<main>
+    <br>
+    <!-- Card -->
+    <div class="card card-cascade wider reverse">
+
+        {% if post.ImageFile %}
+        <!-- Card image -->
+        <div class="view view-cascade overlay">
+            <img class="card-img-top" src="{{ url_for('static', filename='post_images/' +
+            post.ImageFile) }}" alt="Card image cap">
+            <a href="#!">
+                <div class="mask rgba-white-slight"></div>
+            </a>
+        </div>
+        {% endif %}
+
+        <!-- Card content -->
+        <div class="card-body card-body-cascade text-center">
+
+            <!-- Title -->
+            <h4 class="card-title"><strong>{{ post.Title }}</strong></h4>
+            <!-- Subtitle -->
+            <h6 class="font-weight-bold indigo-text py-2">
+                <a href="{{ url_for('main.user_profile', email=post.Author.Email) }}">
+                    {{ post.Author.FirstName }} {{ post.Author.LastName }}
+                </a>
+                -
+                {{ post.DatePosted.strftime('%a %d, %Y') }}</h6>
+            <!-- Text -->
+            <p class="card-text">{{ post.Content }}
+            </p>
+
+            <!-- Load Facebook SDK for JavaScript -->
+            <div id="fb-root"></div>
+            <script async defer crossorigin="anonymous"
+                src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v5.0"></script>
+
+            <!-- Your share button code -->
+            <div class="fb-share-button" data-href="{{ url_for('posts.post', postID=post.id) }}"
+                data-layout="button_count" data-size="small">
+                <a target="_blank"
+                    href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+                    class="fb-xfbml-parse-ignore">Share</a>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Card -->
+    <br>
+    <br>
+</main>
+{% endblock %}
