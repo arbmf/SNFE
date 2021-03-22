@@ -1,0 +1,7 @@
+. venv/bin/activate
+export FLASK_APP=run.py
+export FLASK_ENV=development
+export SECRET_KEY='justarandomkey'
+export SQLALCHEMY_DATABASE_URI='sqlite:///site.db'
+export EMAIL_USER='arbmf.p@gmail.com'
+export EMAIL_PASS='123456'

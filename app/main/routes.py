@@ -2,7 +2,7 @@ from flask import (render_template, request, Blueprint,
                    redirect, url_for, flash, make_response)
 from flask_login import (login_user, current_user, logout_user, login_required)
 from app import db, bcrypt
-from app.models import User, Post
+from app.models import User, Post, Chatroom
 from app.main.forms import RegistrationForm, SearchForm
 from datetime import timedelta
 from sqlalchemy.sql.expression import func
@@ -63,15 +63,13 @@ def family():
 @main.route("/chatrooms")
 @login_required
 def chatroom():
-    users = []
+    chatrooms = []
     if current_user.is_authenticated:
-        posts = current_user.followed_posts().all()
-        tempUsers = User.query.filter(
-            User.id != current_user.id).order_by(func.random()).all()
-        for tempUser in tempUsers:
-            if not current_user.is_following(tempUser) and len(users) <= 2:
-                users.append(tempUser)
-        return render_template('chatroom/chatrooms.html', posts=posts, users=users, active='chatroom')
+        chatrooms = Chatroom.query.all()
+        for chatroom in chatrooms:
+            print(chatroom.Title)
+
+    return render_template('chatroom/chatrooms.html', chatrooms=chatrooms, active='chatroom')
 
 @main.route("/groups")
 @login_required

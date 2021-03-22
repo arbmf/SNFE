@@ -5,6 +5,7 @@ from flask import current_app
 from app import db, login_manager
 from flask_login import UserMixin
 
+
 # This is where the session or current_user gets the data when login_user is triggered
 @login_manager.user_loader
 def load_user(user_id):
@@ -25,10 +26,13 @@ class User(db.Model, UserMixin):
     LastName = db.Column(db.String(20), nullable=False)
     Email = db.Column(db.String(120), unique=True, nullable=False)
     Password = db.Column(db.String(60), nullable=False)
-    ProfilePicture = db.Column(db.String(20), nullable=False, default='default.png')
+    ProfilePicture = db.Column(
+        db.String(20), nullable=False, default='default.png')
     Posts = db.relationship('Post', backref='Author', lazy=True)
-    Followed = db.relationship('User', secondary=Followers,primaryjoin=(Followers.c.follower_id == id),
-        secondaryjoin=(Followers.c.followed_id == id), backref=db.backref('Followers', lazy='dynamic'), lazy='dynamic')
+    Followed = db.relationship('User', secondary=Followers, primaryjoin=(Followers.c.follower_id == id),
+                               secondaryjoin=(Followers.c.followed_id == id),
+                               backref=db.backref('Followers', lazy='dynamic'), lazy='dynamic')
+
     # Generate a reset token in the s.dumps with SECRET_KEY as secret_key argument in Serializer.
 
     def get_reset_token(self, expires_sec=1800):
@@ -64,17 +68,43 @@ class User(db.Model, UserMixin):
         return self.Followed.filter(Followers.c.followed_id == user.id).count() > 0
 
     def followed_posts(self):
-        Followed = Post.query.join(Followers, (Followers.c.followed_id == Post.UserID)).filter(Followers.c.follower_id == self.id)
+        Followed = Post.query.join(Followers, (Followers.c.followed_id == Post.UserID)).filter(
+            Followers.c.follower_id == self.id)
         own = Post.query.filter_by(UserID=self.id)
         return Followed.union(own).order_by(Post.DatePosted.desc())
+
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     Title = db.Column(db.String(100), nullable=False)
     ImageFile = db.Column(db.String(20))
-    DatePosted = db.Column(db.DateTime, nullable=False,default=datetime.utcnow)
+    DatePosted = db.Column(db.DateTime, nullable=False,
+                           default=datetime.utcnow)
     Content = db.Column(db.Text, nullable=False)
     UserID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f"Post('{self.Title}', '{self.DatePosted}')"
+
+
+class Chat(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    Content = db.Column(db.Text, nullable=False)
+    OwnerUser = db.relationship('User', uselist=False)
+    OwnerUserId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    DatePosted = db.Column(db.DateTime, nullable=False,
+                           default=datetime.utcnow)
+    ChatroomId = db.Column(db.Integer, db.ForeignKey('chatroom.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Post('{self.Title}', '{self.DatePosted}')"
+
+
+class Chatroom(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    Title = db.Column(db.String(100), nullable=False)
+    OwnerUser = db.relationship('User', uselist=False)
+    OwnerUserId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    Members = db.relationship('User', backref="Chatroom")
+    Chats = db.relationship('Chat', backref="Chatroom")
+
