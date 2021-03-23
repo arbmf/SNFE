@@ -1,0 +1,25 @@
+{% extends "layout.html" %} {% block content%}
+<main class="card">
+  <form class="container card-body" method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="container">
+      <!-- Form -->
+      <div class="text-center" style="color: #757575" action="#!">
+        <!-- Name -->
+        <div class="md-form mt-3">
+          {{ form.title(class="form-control") }} {{ form.title.label }}
+        </div>
+
+        <!-- Send button -->
+        <button
+          class="btn btn-outline-info btn-rounded btn-block z-depth-0 my-4 waves-effect"
+          type="submit"
+        >
+          Create
+        </button>
+      </div>
+      <!-- Form -->
+    </div>
+  </form>
+</main>
+{% endblock %}

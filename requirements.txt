@@ -25,3 +25,4 @@ Werkzeug==0.15.5
 Whoosh==2.7.4
 WTForms==2.2.1
 wkhtmltopdf-pack-ng==0.12.3.0
+flask-socketio==5.0.1
