@@ -2,12 +2,13 @@ from flask import (render_template, request, Blueprint,
                    redirect, url_for, flash, make_response)
 from flask_login import (login_user, current_user, logout_user, login_required)
 from app import db, bcrypt
-from app.models import User, Post, Chatroom
+from app.models import User, Post, Chatroom, Living,News,Job,Volunteer,Family
 from app.main.forms import RegistrationForm, SearchForm
 from datetime import timedelta
 from sqlalchemy.sql.expression import func
 import pdfkit
-
+from app.main.forms import  FamilyForm,JobForm,VolunteerForm,NewsForm,LivingForm
+from app.posts.utils import save_post_image
 
 main = Blueprint('main', __name__)
 
@@ -50,15 +51,31 @@ def home():
 @main.route("/family")
 @login_required
 def family():
-    users = []
     if current_user.is_authenticated:
-        posts = current_user.followed_posts().all()
-        tempUsers = User.query.filter(
-            User.id != current_user.id).order_by(func.random()).all()
-        for tempUser in tempUsers:
-            if not current_user.is_following(tempUser) and len(users) <= 2:
-                users.append(tempUser)
-        return render_template('family/family.html', posts=posts, users=users, active='family')
+        family_posts = Family.query.all()
+        for post in family_posts:
+            print(post.Title,post.Content)
+        return render_template('family/family.html', posts=family_posts, active='family')
+
+@main.route("/create_family_post", methods=['GET', 'POST'])
+@login_required
+def create_family_post():
+    form = FamilyForm()
+    if form.validate_on_submit():
+        postImage = ""
+        if form.postImage.data:
+            postImage = save_post_image(form.postImage.data)
+        post = Family(
+            Title=form.title.data,
+            Content=form.content.data,
+            ImageFile=postImage
+        )
+        db.session.add(post)
+        db.session.commit()
+        flash("Succesfully Posted!", category='success')
+        return redirect(url_for('main.family'))
+
+    return render_template('family/create-family-post.html', form=form, title="Make a story")
 
 @main.route("/chatrooms")
 @login_required
@@ -100,41 +117,89 @@ def dating():
 @main.route("/job")
 @login_required
 def job():
-    users = []
     if current_user.is_authenticated:
-        posts = current_user.followed_posts().all()
-        tempUsers = User.query.filter(
-            User.id != current_user.id).order_by(func.random()).all()
-        for tempUser in tempUsers:
-            if not current_user.is_following(tempUser) and len(users) <= 2:
-                users.append(tempUser)
-        return render_template('job/jobs.html', posts=posts, users=users, active='job')
+        job_posts = Job.query.all()
+        for post in job_posts:
+            print(post.Title, post.Content)
+        return render_template('job/jobs.html', posts=job_posts, active='family')
+
+@main.route("/create_job_post", methods=['GET', 'POST'])
+@login_required
+def create_job_post():
+    form = JobForm()
+    if form.validate_on_submit():
+        postImage = ""
+        if form.postImage.data:
+            postImage = save_post_image(form.postImage.data)
+        post = Job(
+            Title=form.title.data,
+            Content=form.content.data,
+            ImageFile=postImage
+        )
+        db.session.add(post)
+        db.session.commit()
+        flash("Succesfully Posted!", category='success')
+        return redirect(url_for('main.job'))
+
+    return render_template('job/create-job-post.html', form=form, title="Make a story")
 
 @main.route("/volunteer")
 @login_required
 def volunteer():
-    users = []
     if current_user.is_authenticated:
-        posts = current_user.followed_posts().all()
-        tempUsers = User.query.filter(
-            User.id != current_user.id).order_by(func.random()).all()
-        for tempUser in tempUsers:
-            if not current_user.is_following(tempUser) and len(users) <= 2:
-                users.append(tempUser)
-        return render_template('volunteer/volunteers.html', posts=posts, users=users, active='volunteer')
+        volunteer_posts = Volunteer.query.all()
+        for post in volunteer_posts:
+            print(post.Title, post.Content)
+        return render_template('volunteer/volunteers.html', posts=volunteer_posts, active='volunteer')
+
+@main.route("/create_volunteer_post", methods=['GET', 'POST'])
+@login_required
+def create_volunteer_post():
+    form = VolunteerForm()
+    if form.validate_on_submit():
+        postImage = ""
+        if form.postImage.data:
+            postImage = save_post_image(form.postImage.data)
+        post = Volunteer(
+            Title=form.title.data,
+            Content=form.content.data,
+            ImageFile=postImage
+        )
+        db.session.add(post)
+        db.session.commit()
+        flash("Succesfully Posted!", category='success')
+        return redirect(url_for('main.volunteer'))
+
+    return render_template('volunteer/create-volunteer-post.html', form=form, title="Make a story")
 
 @main.route("/living")
 @login_required
 def living():
-    users = []
     if current_user.is_authenticated:
-        posts = current_user.followed_posts().all()
-        tempUsers = User.query.filter(
-            User.id != current_user.id).order_by(func.random()).all()
-        for tempUser in tempUsers:
-            if not current_user.is_following(tempUser) and len(users) <= 2:
-                users.append(tempUser)
-        return render_template('living/living.html', posts=posts, users=users, active='living')
+        living_posts = Living.query.all()
+        for post in living_posts:
+            print(post.Title, post.Content)
+        return render_template('living/living.html', posts=living_posts, active='living')
+
+@main.route("/create_living_post", methods=['GET', 'POST'])
+@login_required
+def create_living_post():
+    form = LivingForm()
+    if form.validate_on_submit():
+        postImage = ""
+        if form.postImage.data:
+            postImage = save_post_image(form.postImage.data)
+        post = Living(
+            Title=form.title.data,
+            Content=form.content.data,
+            ImageFile=postImage
+        )
+        db.session.add(post)
+        db.session.commit()
+        flash("Succesfully Posted!", category='success')
+        return redirect(url_for('main.living'))
+
+    return render_template('living/create-living-post.html', form=form, title="Make a story")
 
 @main.route("/games")
 @login_required
@@ -152,15 +217,31 @@ def game():
 @main.route("/news")
 @login_required
 def news():
-    users = []
     if current_user.is_authenticated:
-        posts = current_user.followed_posts().all()
-        tempUsers = User.query.filter(
-            User.id != current_user.id).order_by(func.random()).all()
-        for tempUser in tempUsers:
-            if not current_user.is_following(tempUser) and len(users) <= 2:
-                users.append(tempUser)
-        return render_template('news/news.html', posts=posts, users=users, active='news')
+        news_posts = News.query.all()
+        for post in news_posts:
+            print(post.Title, post.Content)
+        return render_template('news/news.html', posts=news_posts, active='news')
+
+@main.route("/create_news_post", methods=['GET', 'POST'])
+@login_required
+def create_news_post():
+    form = NewsForm()
+    if form.validate_on_submit():
+        postImage = ""
+        if form.postImage.data:
+            postImage = save_post_image(form.postImage.data)
+        post = News(
+            Title=form.title.data,
+            Content=form.content.data,
+            ImageFile=postImage
+        )
+        db.session.add(post)
+        db.session.commit()
+        flash("Succesfully Posted!", category='success')
+        return redirect(url_for('main.news'))
+
+    return render_template('news/create-news-post.html', form=form, title="Make a story")
 
 @main.route('/schedule')
 def calendar():

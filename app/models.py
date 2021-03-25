@@ -108,3 +108,42 @@ class Chatroom(db.Model):
     Members = db.relationship('User', backref="Chatroom")
     Chats = db.relationship('Chat', backref="Chatroom")
 
+class Living(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    Title = db.Column(db.String(100), nullable=False)
+    DatePosted = db.Column(db.DateTime, nullable=False,
+                           default=datetime.utcnow)
+    Content = db.Column(db.Text, nullable=False)
+    ImageFile = db.Column(db.String(20))
+
+class Family(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    Title = db.Column(db.String(100), nullable=False)
+    DatePosted = db.Column(db.DateTime, nullable=False,
+                           default=datetime.utcnow)
+    Content = db.Column(db.Text, nullable=False)
+    ImageFile = db.Column(db.String(20))
+
+class Job(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    Title = db.Column(db.String(100), nullable=False)
+    DatePosted = db.Column(db.DateTime, nullable=False,
+                           default=datetime.utcnow)
+    Content = db.Column(db.Text, nullable=False)
+    ImageFile = db.Column(db.String(20))
+
+class Volunteer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    Title = db.Column(db.String(100), nullable=False)
+    DatePosted = db.Column(db.DateTime, nullable=False,
+                           default=datetime.utcnow)
+    Content = db.Column(db.Text, nullable=False)
+    ImageFile = db.Column(db.String(20))
+
+class News(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    Title = db.Column(db.String(100), nullable=False)
+    DatePosted = db.Column(db.DateTime, nullable=False,
+                           default=datetime.utcnow)
+    Content = db.Column(db.Text, nullable=False)
+    ImageFile = db.Column(db.String(20))

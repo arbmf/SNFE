@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import (StringField, PasswordField, SubmitField, BooleanField)
+from wtforms import (StringField, PasswordField, SubmitField, BooleanField,TextAreaField)
 from wtforms.validators import (
     DataRequired, Length, Email, EqualTo, ValidationError)
 from app.models import User
-
+from flask_wtf.file import FileAllowed, FileField
 
 class RegistrationForm(FlaskForm):
     firstName = StringField('First Name', validators=[
@@ -34,3 +34,33 @@ class SearchForm(FlaskForm):
     inp = StringField('Search Email...', validators=[
         DataRequired()] )
     submit = SubmitField('Search')
+
+class FamilyForm(FlaskForm):
+    postImage = FileField('Add Image', validators=[
+        FileAllowed(['jpg', 'png', 'jpeg'])])
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Content', validators=[DataRequired()])
+
+class JobForm(FlaskForm):
+    postImage = FileField('Add Image', validators=[
+        FileAllowed(['jpg', 'png', 'jpeg'])])
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Content', validators=[DataRequired()])
+
+class VolunteerForm(FlaskForm):
+    postImage = FileField('Add Image', validators=[
+        FileAllowed(['jpg', 'png', 'jpeg'])])
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Content', validators=[DataRequired()])
+
+class NewsForm(FlaskForm):
+    postImage = FileField('Add Image', validators=[
+        FileAllowed(['jpg', 'png', 'jpeg'])])
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Content', validators=[DataRequired()])
+
+class LivingForm(FlaskForm):
+    postImage = FileField('Add Image', validators=[
+        FileAllowed(['jpg', 'png', 'jpeg'])])
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Content', validators=[DataRequired()])

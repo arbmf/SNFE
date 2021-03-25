@@ -5,12 +5,13 @@
     <div class="row" style=" margin-top: -52px;">
         <!-- Section: Blog v.3 -->
         <section class="my-5 col-xl-9 card" style="background-color: white; padding-top: 10px;">
-            <h1>What's on your mind?
-                <a href="{{ url_for('posts.create_post') }}" class="btn btn-outline-primary waves-effect"><i
+            <h1> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Volunteer Experiences </h1>
+            <h2>How you can help?
+                <a href="{{ url_for('main.create_volunteer_post') }}" class="btn btn-outline-primary waves-effect"><i
                         class="fas fa-magic mr-1"></i>
-                    Make a story
+                    Post by Admin only
                 </a>
-            </h1>
+            </h2>
             <hr>
             {% if posts %}
             {% for post in posts %}
@@ -24,7 +25,7 @@
                     <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
                         <img class="img-fluid" src="{{ url_for('static', filename='post_images/' +
                                 post.ImageFile) }}" alt="Post Image">
-                        <a href="{{ url_for('posts.post', postID=post.id) }}">
+                        <a href="{{ url_for('main.volunteer', postID=post.id) }}">
 
                             <div class="mask rgba-white-slight"></div>
                         </a>
@@ -37,7 +38,7 @@
                 <div class="col-lg-7 col-xl-8">
 
                     <!-- Post title -->
-                    <a href="{{ url_for('posts.post', postID=post.id) }}" style="color: black;">
+                    <a href="{{ url_for('main.volunteer', postID=post.id) }}" style="color: black;">
                         <h5 class="font-weight-bold mb-3"><strong>{{ post.Title }}</strong></h5>
                     </a>
 
@@ -50,14 +51,6 @@
 
                     <!-- Read more button -->
 
-                    <a href="{{ url_for('main.user_profile', email=post.Author.Email) }}">
-                        <h6 class="font-weight-bold mb-3"><img style="max-width: 30px; margin-right: 10px;"
-                                src="{{ url_for('static', filename='profile_pictures/' + post.Author.ProfilePicture) }}"
-                                class="img-fluid z-depth-1 rounded-circle"
-                                alt="Responsive image"><strong>{{ post.Author.FirstName }}
-                                {{ post.Author.LastName }}</strong> |
-                            {{ post.DatePosted.strftime('%m/%d/%Y') }}</h6>
-                    </a>
                 </div>
                 <!-- Grid column -->
 
