@@ -29,6 +29,7 @@ class User(db.Model, UserMixin):
     ProfilePicture = db.Column(
         db.String(20), nullable=False, default='default.png')
     Posts = db.relationship('Post', backref='Author', lazy=True)
+    ChatroomId = db.Column(db.Integer, db.ForeignKey('chatroom.id'))
     Followed = db.relationship('User', secondary=Followers, primaryjoin=(Followers.c.follower_id == id),
                                secondaryjoin=(Followers.c.followed_id == id),
                                backref=db.backref('Followers', lazy='dynamic'), lazy='dynamic')
@@ -103,10 +104,8 @@ class Chat(db.Model):
 class Chatroom(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     Title = db.Column(db.String(100), nullable=False)
-    OwnerUser = db.relationship('User', uselist=False)
-    OwnerUserId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    Members = db.relationship('User', backref="Chatroom")
     Chats = db.relationship('Chat', backref="Chatroom")
+    Members = db.relationship('User', backref="MemberChatrooms")
 
 class Living(db.Model):
     id = db.Column(db.Integer, primary_key=True)

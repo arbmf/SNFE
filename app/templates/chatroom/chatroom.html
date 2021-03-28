@@ -9,6 +9,7 @@
   var chatroomId = "{{chatroom.id}}";
   var profilePicture = "{{current_user.ProfilePicture}}";
   var userFirstName = "{{current_user.FirstName}}";
+  var userEmail = "{{current_user.Email}}";
 </script>
 <!-- Card -->
 <div
@@ -16,36 +17,21 @@
   style="height: calc(100% - 150px); margin: 90px"
 >
   <div class="card-body" style="height: 100%">
+    <h4 style="width: 100%; text-align: center; margin: auto">
+      {{chatroom.Title }}
+    </h4>
     <!-- Grid row -->
     <div class="row px-lg-2 px-2" style="height: 100%">
       <!-- Grid column -->
       <div class="col-md-6 col-xl-4 px-0" style="height: 100%">
-        <h6 class="font-weight-bold mb-3 text-center text-lg-left">Member</h6>
+        <h6 class="font-weight-bold mb-3 text-center text-lg-left">Members</h6>
         <div
           class="white z-depth-1 px-3 pt-3 pb-0"
           style="height: 90%; overflow: auto"
         >
-          <ul class="list-unstyled friend-list">
-            {% if chatroom %} {% for member in members %}
-            <li class="active grey lighten-3 p-2">
-              <a href="#" class="d-flex justify-content-between">
-                <img
-                  src="{{ url_for('static', filename='profile_pictures/' + member.ProfilePicture) }}"
-                  style="height: 60px; width: 60px"
-                  alt="avatar"
-                  class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1"
-                />
-                <div class="text-small">
-                  <strong>{{member.FirstName}}</strong>
-                  <p class="last-message text-muted">Hello, Are you there?</p>
-                </div>
-                <div class="chat-footer">
-                  <p class="text-smaller text-muted mb-0">Just now</p>
-                  <span class="badge badge-danger float-right">1</span>
-                </div>
-              </a>
-            </li>
-            {% endfor %} {% endif %}
+          <ul id="members" class="list-unstyled friend-list">
+            {% if chatroom %} {% for member in members %} {% endfor %} {% endif
+            %}
           </ul>
         </div>
       </div>
@@ -60,7 +46,7 @@
           <ul
             id="chats"
             class="list-unstyled chat"
-            style="height: 70%; overflow: auto"
+            style="height: 60%; overflow: auto"
           >
             {% if chats %} {% for chat in chats %} {% if chat.OwnerUserId !=
             current_user.id %}
