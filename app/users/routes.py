@@ -2,8 +2,8 @@ from flask import (render_template, url_for, flash,
                    redirect, request, Blueprint, make_response)
 from flask_login import (login_user, current_user, logout_user, login_required)
 from app import db, bcrypt
-from app.models import User, Post
-from app.users.forms import (RegistrationForm, LoginForm, ProfileUpdate,
+from app.models import User, Post, Interest
+from app.users.forms import (RegistrationForm, LoginForm, ProfileUpdate,InterestForm,
                              RequestResetForm, ResetPasswordForm)
 from app.users.utils import save_picture, send_reset_email
 from datetime import timedelta
@@ -33,7 +33,7 @@ def register():
         # Second argument is optional, uses to assign what category the message is
         flash('Signed in!', 'success')
         return redirect(url_for('users.login'))
-    return render_template('register.html', form=form, title='Register')
+    return render_template('register.html', form=form,title='Register')
  
 
 @users.route("/login", methods=['GET', 'POST'])

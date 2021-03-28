@@ -6,6 +6,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from app.config import Config
+from flask_babelex import Babel
 from flask_socketio import SocketIO
 # Libraries Initialization
 db = SQLAlchemy()
@@ -21,7 +22,8 @@ mail = Mail()
 # App factory
 def create_app(config_class=Config):
     app = Flask(__name__)
-    app.config.from_object(Config)  # Mapped the configurations
+    app.config.from_object(Config)
+    babel = Babel(app)# Mapped the configurations
     # Initialize flask app inside these libraries instance.
     db.init_app(app)
     socketio.init_app(app)
