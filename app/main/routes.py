@@ -2,7 +2,7 @@ from flask import (render_template, request, Blueprint,
                    redirect, url_for, flash, make_response)
 from flask_login import login_user, current_user, logout_user, login_required
 from app import db, bcrypt, authorize
-from app.models import User, Post, Chatroom, Living,News,Job,Volunteer,Family
+from app.models import User, Post, Chatroom, Living, News, Job, Volunteer, Family, Role
 from app.main.forms import RegistrationForm, SearchForm, InterestForm
 from datetime import timedelta
 from sqlalchemy.sql.expression import func
@@ -19,16 +19,23 @@ def home():
     form = RegistrationForm()
     form_in = InterestForm()
     if form.validate_on_submit():
+        role = Role(name= "user")
+        db.session.add(role)
+        db.session.commit()
         firstName = form.firstName.data.capitalize()
         lastName = form.lastName.data.capitalize()
         email = form.email.data.lower()
         hashed_password = bcrypt.generate_password_hash(
             form.password.data).decode('UTF-8')  # Encrypt the password stored in form.password.data
         user = User(FirstName=firstName, LastName=lastName,
-                    Email=email, Password=hashed_password)
-        user.roles = ['user']
+                    Email=email, Password=hashed_password, roles=[role])
         db.session.add(user)
         db.session.commit()
+        # user = db.session.query(User).get(current_user.id)
+
+        print("Users")
+        print(user.roles)
+        print(current_user.roles)
         # Login the user with the session duration set
         login_user(user, duration=timedelta)
         # Second argument is optional, uses to assign what category the message is
@@ -38,6 +45,8 @@ def home():
         posts = current_user.followed_posts().all()
         # users = User.query.filter(User.id != current_user.id).order_by(
         #     func.random()).limit(3).all()
+        print("Users")
+        print(current_user.roles)
         tempUsers = User.query.filter(
             User.id != current_user.id).order_by(func.random()).all()
 
@@ -84,6 +93,7 @@ def create_family_post():
 @main.route("/chatrooms")
 @login_required
 def chatroom():
+
     chatrooms = []
     if current_user.is_authenticated:
         chatrooms = Chatroom.query.all()
