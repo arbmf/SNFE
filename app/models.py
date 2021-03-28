@@ -19,7 +19,6 @@ Followers = db.Table('followers',
                                db.ForeignKey('user.id'))
                      )
 
-
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     FirstName = db.Column(db.String(20), nullable=False)
@@ -87,6 +86,17 @@ class Post(db.Model):
     def __repr__(self):
         return f"Post('{self.Title}', '{self.DatePosted}')"
 
+class Interest(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    UserID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    Chess = db.Column(db.Boolean)
+    Sudoku = db.Column(db.Boolean)
+    Crosswords = db.Column(db.Boolean)
+    Job = db.Column(db.Boolean)
+    Volunteer = db.Column(db.Boolean)
+    Dating = db.Column(db.Boolean)
+
+
 
 class Chat(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -122,6 +132,7 @@ class Family(db.Model):
                            default=datetime.utcnow)
     Content = db.Column(db.Text, nullable=False)
     ImageFile = db.Column(db.String(20))
+
 
 class Job(db.Model):
     id = db.Column(db.Integer, primary_key=True)

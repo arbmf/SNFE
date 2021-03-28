@@ -1,9 +1,9 @@
 from flask import (render_template, request, Blueprint,
                    redirect, url_for, flash, make_response)
-from flask_login import (login_user, current_user, logout_user, login_required)
+from flask_login import login_user, current_user, logout_user, login_required
 from app import db, bcrypt
 from app.models import User, Post, Chatroom, Living,News,Job,Volunteer,Family
-from app.main.forms import RegistrationForm, SearchForm
+from app.main.forms import RegistrationForm, SearchForm, InterestForm
 from datetime import timedelta
 from sqlalchemy.sql.expression import func
 import pdfkit
@@ -17,6 +17,7 @@ main = Blueprint('main', __name__)
 def home():
     users = []
     form = RegistrationForm()
+    form_in = InterestForm()
     if form.validate_on_submit():
         firstName = form.firstName.data.capitalize()
         lastName = form.lastName.data.capitalize()

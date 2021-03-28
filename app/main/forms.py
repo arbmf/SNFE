@@ -14,6 +14,7 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     confirmPassword = PasswordField('Confirm Password', validators=[
                                     DataRequired(), EqualTo('password')])
+
     submit = SubmitField('Sign up')
 
     # Function to make a custom error validation message
@@ -28,6 +29,14 @@ class RegistrationForm(FlaskForm):
 
         if user:
             raise ValidationError("Email is already taken.")
+
+class InterestForm(FlaskForm):
+    chess = BooleanField('Interested in Chess')
+    sudoku = BooleanField('Interested in Sudoku')
+    crosswords = BooleanField('Interest in Chess')
+    job = BooleanField('Interested in Job')
+    volunteer = BooleanField('Interested in Volunteer')
+    dating = BooleanField('Interested in Dating')
 
 
 class SearchForm(FlaskForm):
