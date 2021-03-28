@@ -1,7 +1,7 @@
 from flask import (render_template, request, Blueprint,
                    redirect, url_for, flash, make_response)
 from flask_login import login_user, current_user, logout_user, login_required
-from app import db, bcrypt
+from app import db, bcrypt, authorize
 from app.models import User, Post, Chatroom, Living,News,Job,Volunteer,Family
 from app.main.forms import RegistrationForm, SearchForm, InterestForm
 from datetime import timedelta
@@ -9,7 +9,7 @@ from sqlalchemy.sql.expression import func
 import pdfkit
 from app.main.forms import  FamilyForm,JobForm,VolunteerForm,NewsForm,LivingForm
 from app.posts.utils import save_post_image
-
+from werkzeug.exceptions import NotFound, Unauthorized
 main = Blueprint('main', __name__)
 
 
@@ -26,6 +26,7 @@ def home():
             form.password.data).decode('UTF-8')  # Encrypt the password stored in form.password.data
         user = User(FirstName=firstName, LastName=lastName,
                     Email=email, Password=hashed_password)
+        user.roles = ['user']
         db.session.add(user)
         db.session.commit()
         # Login the user with the session duration set
@@ -49,8 +50,10 @@ def home():
     # posts = Post.query.order_by(Post.DatePosted.desc())
     return render_template('index.html', form=form)
 
+
 @main.route("/family")
 @login_required
+@authorize.has_role('user')
 def family():
     if current_user.is_authenticated:
         family_posts = Family.query.all()
