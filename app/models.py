@@ -4,6 +4,22 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from app import db, login_manager
 from flask_login import UserMixin
+from flask_authorize import RestrictionsMixin, AllowancesMixin
+
+
+UserGroup = db.Table(
+    'user_group', db.Model.metadata,
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('group_id', db.Integer, db.ForeignKey('group.id'))
+)
+
+
+UserRole = db.Table(
+    'user_role', db.Model.metadata,
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('role_id', db.Integer, db.ForeignKey('role.id'))
+)
+
 
 
 # This is where the session or current_user gets the data when login_user is triggered
@@ -28,9 +44,14 @@ class User(db.Model, UserMixin):
     ProfilePicture = db.Column(
         db.String(20), nullable=False, default='default.png')
     Posts = db.relationship('Post', backref='Author', lazy=True)
+    ChatroomId = db.Column(db.Integer, db.ForeignKey('chatroom.id'))
     Followed = db.relationship('User', secondary=Followers, primaryjoin=(Followers.c.follower_id == id),
                                secondaryjoin=(Followers.c.followed_id == id),
                                backref=db.backref('Followers', lazy='dynamic'), lazy='dynamic')
+    # `roles` and `groups` are reserved words that *must* be defined
+    # on the `User` model to use group- or role-based authorization.
+    roles = db.relationship('Role', secondary=UserRole)
+    groups = db.relationship('Group', secondary=UserGroup)
 
     # Generate a reset token in the s.dumps with SECRET_KEY as secret_key argument in Serializer.
 
@@ -73,6 +94,16 @@ class User(db.Model, UserMixin):
         return Followed.union(own).order_by(Post.DatePosted.desc())
 
 
+class Group(db.Model, RestrictionsMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False, unique=True)
+
+
+class Role(db.Model, AllowancesMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False, unique=True)
+
+
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     Title = db.Column(db.String(100), nullable=False)
@@ -113,10 +144,8 @@ class Chat(db.Model):
 class Chatroom(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     Title = db.Column(db.String(100), nullable=False)
-    OwnerUser = db.relationship('User', uselist=False)
-    OwnerUserId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    Members = db.relationship('User', backref="Chatroom")
     Chats = db.relationship('Chat', backref="Chatroom")
+    Members = db.relationship('User', backref="MemberChatrooms")
 
 class Living(db.Model):
     id = db.Column(db.Integer, primary_key=True)

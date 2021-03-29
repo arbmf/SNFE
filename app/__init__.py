@@ -1,6 +1,7 @@
 import os
 # Installable
 from flask import Flask
+from flask_authorize import Authorize
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
@@ -12,6 +13,7 @@ from flask_socketio import SocketIO
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
+authorize = Authorize()
 
 # Assign a route where the login view redirect to.
 login_manager.login_view = 'users.login'
@@ -26,6 +28,7 @@ def create_app(config_class=Config):
     babel = Babel(app)# Mapped the configurations
     # Initialize flask app inside these libraries instance.
     db.init_app(app)
+    authorize.init_app(app)
     socketio.init_app(app)
     with app.app_context():
         db.create_all()
