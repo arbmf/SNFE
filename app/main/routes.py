@@ -61,7 +61,7 @@ def home():
 
 @main.route("/family")
 @login_required
-@authorize.has_role('user')
+# @authorize.has_role('user')
 def family():
     if current_user.is_authenticated:
         family_posts = Family.query.all()
@@ -92,7 +92,6 @@ def create_family_post():
 @main.route("/chatrooms")
 @login_required
 def chatroom():
-
     chatrooms = []
     if current_user.is_authenticated:
         chatrooms = Chatroom.query.all()
@@ -134,7 +133,7 @@ def job():
         job_posts = Job.query.all()
         for post in job_posts:
             print(post.Title, post.Content)
-        return render_template('job/jobs.html', posts=job_posts, active='family')
+        return render_template('job/jobs.html', posts=job_posts, active='job')
 
 @main.route("/create_job_post", methods=['GET', 'POST'])
 @login_required
@@ -482,4 +481,4 @@ def suggested_people():
     for tempUser in tempUsers:
         if not current_user.is_following(tempUser):
             users.append(tempUser)
-    return render_template('suggested-people.html', users=users, active='home')
+    return render_template('suggested-people.html', users=users, active='add_friends')

@@ -1,34 +1,33 @@
 {% extends "layout.html" %}
 {% block content%}
+    <div><h1>
+    <a href="{{ url_for('main.home') }}" class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'home' %} activenav {% endif %}">
+
+                    Posts
+                </a>
+            <a href="{{ url_for('main.family') }}" class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'family' %} activenav {% endif %}">
+                    Family
+                </a>
+            <a href="{{ url_for('main.chatroom') }}" class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'chatroom' %} activenav {% endif %}">
+                    Chat Rooms
+                </a>
+            <a href="{{ url_for('main.group') }}" class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'group' %} activenav {% endif %}">
+                    Groups
+                </a>
+            <a href="{{ url_for('main.dating') }}" class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'dating' %} activenav {% endif %}">
+                    Dating
+                </a>
+            <a href="{{ url_for('main.news') }}" class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'news' %} activenav {% endif %}">
+                    Question/Answers
+                </a>
+    </h1>
+    </div>
 <div class="container">
 
     <div class="row" style=" margin-top: -52px;">
         <!-- Section: Blog v.3 -->
         <section class="my-5 col-xl-9 card" style="background-color: white; padding-top: 10px;">
-             <h1> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <a href="{{ url_for('main.home') }}" class="btn btn-outline-primary waves-effect"><i
-                        class="fas fa-magic mr-1"></i>
-                    Posts
-                </a>
-            <a href="{{ url_for('main.family') }}" class="btn btn-outline-primary waves-effect"><i
-                        class="fas fa-magic mr-1"></i>
-                    Family
-                </a>
-            <a href="{{ url_for('main.chatroom') }}" class="btn btn-outline-primary waves-effect"><i
-                        class="fas fa-magic mr-1"></i>
-                    Chat Rooms
-                </a>
-            <a href="{{ url_for('main.group') }}" class="btn btn-outline-primary waves-effect"><i
-                        class="fas fa-magic mr-1"></i>
-                    Groups
-                </a>
-            <a href="{{ url_for('main.dating') }}" class="btn btn-outline-primary waves-effect"><i
-                        class="fas fa-magic mr-1"></i>
-                    Dating
-                </a>
-            <a href="{{ url_for('main.news') }}" class="btn btn-outline-primary waves-effect"><i
-                        class="fas fa-magic mr-1"></i>
-                    Question/Answers
-                </a></h1>
+
             <h1>On The Works</h1>
             <hr>
         </section>

@@ -1,18 +1,24 @@
 {% extends "layout.html" %}
 {% block content%}
+    <div>
+            <h1> <a
+              class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'job' %} activenav {% endif %}"
+              href="{{ url_for('main.job') }}"
+            >
+                    Job Opportunities
+                </a>
+             <a
+              class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'volunteer' %} activenav {% endif %}"
+              href="{{ url_for('main.volunteer') }}"
+            >
+                    Volunteer Opportunities
+                </a>  </h1>
+            </div>
 <div class="container">
 
     <div class="row" style=" margin-top: -52px;">
         <!-- Section: Blog v.3 -->
         <section class="my-5 col-xl-9 card" style="background-color: white; padding-top: 10px;">
-            <h1> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <a href="{{ url_for('main.job') }}" class="btn btn-outline-primary waves-effect"><i
-                        class="fas fa-magic mr-1"></i>
-                    Job Opportunities
-                </a>
-            <a href="{{ url_for('main.volunteer') }}" class="btn btn-outline-primary waves-effect"><i
-                        class="fas fa-magic mr-1"></i>
-                    Volunteer Opportunities
-                </a>  </h1>
 
             <hr>
             {% if posts %}

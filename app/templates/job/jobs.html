@@ -1,16 +1,21 @@
 {% extends "layout.html" %}
 {% block content%}
-<div class="container">
-    <div class ="row" style ="padding-top:70px;padding-right: 100px">
-            <h1> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <a href="{{ url_for('main.job') }}" class="btn btn-outline-primary waves-effect"><i
-                        class="fas fa-magic mr-1"></i>
+    <div>
+            <h1>  <a
+              class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'job' %} activenav {% endif %}"
+              href="{{ url_for('main.job') }}"
+            >
                     Job Opportunities
                 </a>
-            <a href="{{ url_for('main.volunteer') }}" class="btn btn-outline-primary waves-effect"><i
-                        class="fas fa-magic mr-1"></i>
+             <a
+              class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'volunteer' %} activenav {% endif %}"
+              href="{{ url_for('main.volunteer') }}"
+            >
                     Volunteer Opportunities
                 </a>  </h1>
             </div>
+<div class="container">
+
     <div class="row" style=" margin-top: -52px;">
         <!-- Section: Blog v.3 -->
 
