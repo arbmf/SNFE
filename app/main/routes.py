@@ -17,7 +17,6 @@ main = Blueprint('main', __name__)
 def home():
     users = []
     form = RegistrationForm()
-    form_in = InterestForm()
     if form.validate_on_submit():
         firstName = form.firstName.data.capitalize()
         lastName = form.lastName.data.capitalize()

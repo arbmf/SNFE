@@ -5,13 +5,31 @@
     <div class="row" style=" margin-top: -52px;">
         <!-- Section: Blog v.3 -->
         <section class="my-5 col-xl-9 card" style="background-color: white; padding-top: 10px;">
-            <h1> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Questions/Answers </h1>
-            <h2>What do you want to know?
-                <a href="{{ url_for('main.create_news_post') }}" class="btn btn-outline-primary waves-effect"><i
+            <h1> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <h1> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <a href="{{ url_for('main.home') }}" class="btn btn-outline-primary waves-effect"><i
                         class="fas fa-magic mr-1"></i>
-                    Write your question here
+                    Posts
                 </a>
-            </h2>
+            <a href="{{ url_for('main.family') }}" class="btn btn-outline-primary waves-effect"><i
+                        class="fas fa-magic mr-1"></i>
+                    Family
+                </a>
+            <a href="{{ url_for('main.chatroom') }}" class="btn btn-outline-primary waves-effect"><i
+                        class="fas fa-magic mr-1"></i>
+                    Chat Rooms
+                </a>
+            <a href="{{ url_for('main.group') }}" class="btn btn-outline-primary waves-effect"><i
+                        class="fas fa-magic mr-1"></i>
+                    Groups
+                </a>
+            <a href="{{ url_for('main.dating') }}" class="btn btn-outline-primary waves-effect"><i
+                        class="fas fa-magic mr-1"></i>
+                    Dating
+                </a>
+            <a href="{{ url_for('main.news') }}" class="btn btn-outline-primary waves-effect"><i
+                        class="fas fa-magic mr-1"></i>
+                    Question/Answers
+                </a></h1> </h1>
+
             <hr>
             {% if posts %}
             {% for post in posts %}
@@ -66,9 +84,12 @@
         </section>
         <!-- Section: Blog v.3 -->
 
-        <section class="my-5 col-xl-3" style="padding-top: 10px;">
-
-        </section>
+        <h2>What do you want to know?
+                <a href="{{ url_for('main.create_news_post') }}" class="btn btn-outline-primary waves-effect"><i
+                        class="fas fa-magic mr-1"></i>
+                    Write your question here
+                </a>
+            </h2>
     </div>
 </div>
 

@@ -1,17 +1,21 @@
 {% extends "layout.html" %}
 {% block content%}
 <div class="container">
-
+    <div class ="row" style ="padding-top:70px;padding-right: 100px">
+            <h1> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <a href="{{ url_for('main.job') }}" class="btn btn-outline-primary waves-effect"><i
+                        class="fas fa-magic mr-1"></i>
+                    Job Opportunities
+                </a>
+            <a href="{{ url_for('main.volunteer') }}" class="btn btn-outline-primary waves-effect"><i
+                        class="fas fa-magic mr-1"></i>
+                    Volunteer Opportunities
+                </a>  </h1>
+            </div>
     <div class="row" style=" margin-top: -52px;">
         <!-- Section: Blog v.3 -->
+
         <section class="my-5 col-xl-9 card" style="background-color: white; padding-top: 10px;">
-            <h1> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Job Opportunities  </h1>
-            <h2> What to do?
-                <a href="{{ url_for('main.create_job_post') }}" class="btn btn-outline-primary waves-effect"><i
-                        class="fas fa-magic mr-1"></i>
-                    Post by Admin only
-                </a>
-            </h2>
+
             <hr>
             {% if posts %}
             {% for post in posts %}
@@ -70,6 +74,13 @@
 
         </section>
     </div>
+    <h2>
+        <a href="{{ url_for('main.create_job_post') }}" class="btn btn-outline-primary waves-effect"><i
+                        class="fas fa-magic mr-1"></i>
+                    Post by Admin only
+        </a>
+    </h2>
+
 </div>
 
 {% endblock %}
