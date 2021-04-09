@@ -187,3 +187,11 @@ class News(db.Model):
                            default=datetime.utcnow)
     Content = db.Column(db.Text, nullable=False)
     ImageFile = db.Column(db.String(20))
+
+class Schedule(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    Title = db.Column(db.String(100), nullable=False)
+    url = db.Column(db.String(100), nullable=False)
+    class1 = db.Column(db.String(100), nullable=False)
+    start_date = db.Column(db.DateTime,nullable=False)
+    end_date = db.Column(db.DateTime,nullable=False)
