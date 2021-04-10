@@ -1,0 +1,10 @@
+#!/bin/bash
+touch .flaskenv
+echo 'export FLASK_APP=run.py'>>.flaskenv
+echo 'export FLASK_ENV="development"'>>.flaskenv
+echo 'export SECRET_KEY="justarandomkey"'>>.flaskenv
+echo 'export SQLALCHEMY_DATABASE_URI="sqlite:///site.db"'>>.flaskenv
+echo 'export EMAIL_USER="'$1'"'>>.flaskenv
+echo 'export EMAIL_PASS="'$2'"'>>.flaskenv
+python3 -m venv venv
+pip install -r requirements.txt
