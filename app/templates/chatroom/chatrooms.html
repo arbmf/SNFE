@@ -1,25 +1,42 @@
 {% extends "layout.html" %} {% block content%}
-<div><h1>
-    <a href="{{ url_for('main.home') }}" class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'home' %} activenav {% endif %}">
-
+    <div style="background-color: #FAFAFA" >
+        <h1>
+            <a href="{{ url_for('main.home') }}" class="btn  {% if active == 'home' %} btn-primary activenav{% endif %}">
+                <div style="color: black;font-size: 20px; {% if active == 'home' %} color:white; {% endif %}" >
                     Posts
-                </a>
-            <a href="{{ url_for('main.family') }}" class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'family' %} activenav {% endif %}">
+                </div>
+            </a>
+
+            <a href="{{ url_for('main.family') }}" class="btn {% if active == 'family' %} btn-primary activenav {% endif %}">
+                <div style="color: black;font-size: 20px;{% if active == 'family' %} color:white; {% endif %}">
                     Family
-                </a>
-            <a href="{{ url_for('main.chatroom') }}" class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'chatroom' %} activenav {% endif %}">
+                </div>
+            </a>
+
+            <a href="{{ url_for('main.chatroom') }}" class="btn {% if active == 'chatroom' %} btn-primary  activenav {% endif %}">
+                <div style="color: black;font-size: 20px;{% if active == 'chatroom' %} color:white; {% endif %}" >
                     Chat Rooms
-                </a>
-            <a href="{{ url_for('main.group') }}" class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'group' %} activenav {% endif %}">
+                </div>
+            </a>
+
+            <a href="{{ url_for('main.group') }}" class="btn {% if active == 'group' %}btn-primary  activenav {% endif %}">
+                <div style="color: black;font-size: 20px;{% if active == 'group' %} color:white; {% endif %}" >
                     Groups
-                </a>
-            <a href="{{ url_for('main.dating') }}" class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'dating' %} activenav {% endif %}">
+                </div>
+            </a>
+
+            <a href="{{ url_for('main.dating') }}" class="btn  {% if active == 'dating' %}btn-primary  activenav {% endif %}">
+                <div style="color: black;font-size: 20px;{% if active == 'dating' %} color:white; {% endif %}" >
                     Dating
-                </a>
-            <a href="{{ url_for('main.news') }}" class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'news' %} activenav {% endif %}">
+                </div>
+            </a>
+
+            <a href="{{ url_for('main.news') }}" class="btn  {% if active == 'news' %} btn-primary  activenav {% endif %}">
+                <div style="color: black;font-size: 20px;{% if active == 'news' %} color:white; {% endif %}" >
                     Question/Answers
-                </a>
-    </h1>
+                </div>
+            </a>
+        </h1>
     </div>
 <div class="container" style="height: inherit">
   <!-- Section: Blog v.3 -->
@@ -56,11 +73,10 @@
   {% endif %}
 
   <section class="my-5 col-xl-3" style="padding-top: 10px; margin: auto">
-    <a
-      href="{{ url_for('chatrooms.create_chatroom') }}"
-      class="btn btn-outline-primary waves-effect"
-      ><i class="fas fa-magic mr-1"></i>
-      Create a chatroom
+    <a href="{{ url_for('chatrooms.create_chatroom') }}" class="btn btn-primary waves-effect">
+      <div style="font-size: 20px">
+                    Create a Chatroom
+      </div>
     </a>
   </section>
 </div>

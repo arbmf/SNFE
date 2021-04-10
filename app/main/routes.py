@@ -257,7 +257,7 @@ def create_news_post():
 
 @main.route('/schedule')
 def calendar():
-    return render_template('scheduler/calendar.html')
+    return render_template('scheduler/calendar.html',active='schedule')
 
 @main.route("/profile/<string:email>")
 def friends(email):

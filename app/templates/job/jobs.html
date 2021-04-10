@@ -1,26 +1,27 @@
 {% extends "layout.html" %}
 {% block content%}
-    <div>
-            <h1>  <a
-              class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'job' %} activenav {% endif %}"
-              href="{{ url_for('main.job') }}"
-            >
+    <div style="background-color: #FAFAFA" >
+            <h1> <a
+              class="btn{% if active == 'job' %} btn-primary activenav {% endif %}"
+              href="{{ url_for('main.job') }}" style="color: black;"
+            > <div style="color: black; font-size: 20px;{% if active == 'job' %} color:white{% endif %}" >
                     Job Opportunities
+            </div>
                 </a>
              <a
-              class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'volunteer' %} activenav {% endif %}"
-              href="{{ url_for('main.volunteer') }}"
-            >
+              class="btn {% if active == 'volunteer' %} btn-primary activenav {% endif %}"
+              href="{{ url_for('main.volunteer') }}" style="color: black;"
+            > <div style="color: black; font-size: 20px;{% if active == 'volunteer' %} color:white {% endif %}" >
                     Volunteer Opportunities
+             </div>
                 </a>  </h1>
             </div>
-<div class="container">
+<div class="container" style="padding-left:250px;">
 
     <div class="row" style=" margin-top: -52px;">
         <!-- Section: Blog v.3 -->
 
         <section class="my-5 col-xl-9 card" style="background-color: white; padding-top: 10px;">
-
             <hr>
             {% if posts %}
             {% for post in posts %}
@@ -66,7 +67,6 @@
 
             </div>
             <!-- Grid row -->
-
             <hr class="my-5">
             {% endfor %}
             {% else %}
@@ -79,12 +79,11 @@
 
         </section>
     </div>
-    <h2>
-        <a href="{{ url_for('main.create_job_post') }}" class="btn btn-outline-primary waves-effect"><i
-                        class="fas fa-magic mr-1"></i>
-                    Post by Admin only
+    <div> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; &emsp;&emsp;&emsp;
+        <a href="{{ url_for('main.create_job_post') }}" class="btn btn-primary waves-effect">
+            <div style = "font-size: 20px">Create a Post </div> (by admin only)
         </a>
-    </h2>
+    </div>
 
 </div>
 

@@ -66,150 +66,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     {% if title %}
-    <title>Second Innings - {{ title }}</title>
+    <title>INDULGE - {{ title }}</title>
     {% else %}
-    <title>Second Innings</title>
+    <title>INDULGE</title>
     {% endif %}
   </head>
 
   <body class="fixed-sn">
-    <!--Double navigation-->
     <header style="color: white">
-      <nav
-        class="navbar blue-gradient fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav"
-      >
-        <!-- Breadcrumb-->
-        <!-- <a class="custom-nav" href="#">Navbar</a> -->
-        <a
-          class="navbar-brand"
-          href="{{ url_for('main.home') }}"
-          style="font-size: 20px; margin-left: 10px; font-weight: 900"
-          ><strong>Second Innings</strong></a
-        >
-        <ul class="nav navbar-nav nav-flex-icons ml-auto">
-          {% if current_user.is_authenticated %}
-          <li class="nav-item">
-            <a
-              class="nav-link waves-effect waves-light {% if active == 'home' or active == 'family' or active == 'chatroom' or active == 'group' or active == 'dating' or active == 'news'%} activenav {% endif %}"
-              href="{{ url_for('main.home') }}"
-            >
-              Community
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link waves-effect waves-light {% if active == 'job' or active == 'volunteer' %} activenav {% endif %}"
-              href="{{ url_for('main.job') }}"
-            >
-              Work
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link waves-effect waves-light {% if active == 'living' %} activenav {% endif %}"
-              href="{{ url_for('main.living') }}"
-            >
-              Health & Fitness
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link waves-effect waves-light {% if active == 'games' %} activenav {% endif %}"
-              href="{{ url_for('main.game') }}"
-            >
-              Games
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link waves-effect waves-light {% if active == 'schedule' %} activenav {% endif %}"
-              href="{{ url_for('main.calendar')}}"
-            >
-              Schedule
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link waves-effect waves-light {% if active == 'profile' %} activenav {% endif %}"
-              href="{{ url_for('users.profile') }}"
-            >
-              Profile
-            </a>
-          </li>
-          <li class="nav-item" style="margin-left: 5px; margin-right: 10px">
-            <a
-              class="nav-link waves-effect waves-light"
-              href="{{ url_for('main.search') }}"
-            >
-              <i class="fas fa-search" aria-hidden="true"></i>
-            </a>
-          </li>
-          <li class="nav-item avatar dropdown" style="margin-top: 5px">
-            <a
-              class="nav-link dropdown-toggle"
-              id="navbarDropdownMenuLink-55"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <img
-                src="{{ url_for('static', filename='profile_pictures/' + current_user.ProfilePicture) }}"
-                class="rounded-circle z-depth-0"
-                alt="avatar image"
-              />
-            </a>
-            <div
-              class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"
-              aria-labelledby="navbarDropdownMenuLink-55"
-            >
-              <a
-                class="dropdown-item"
-                href="{{ url_for('users.profile_update') }}"
-                >Account Settings</a
-              >
-              <a class="dropdown-item" href="{{ url_for('users.logout') }}"
-                >Logout</a
-              >
-            </div>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a
-              class="nav-link btn"
-              href="{{ url_for('users.login') }}"
-              style="padding: 5px 10px 5px 10px; border: 1px solid white"
-            >
-              <span class="clearfix d-none d-sm-inline-block">Sign in</span></a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link btn peach-gradient"
-              href="{{ url_for('users.register') }}"
-              style="padding: 5px 10px 5px 10px"
-            >
-              <span class="clearfix d-none d-sm-inline-block">Sign up</span></a
-            >
-          </li>
-          {% endif %}
-        </ul>
-      </nav>
-      <!-- /.Navbar -->
+        <nav class="navbar white fixed-top ">
+            <a class="navbar-brand" href="{{ url_for('main.home') }}"
+            style="font-size: 25px;font-weight: 900; color: black"><strong>INDULGE</strong></a>
+            <ul class="nav navbar-nav nav-flex-icons ml-auto" >
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item" style="color: black">
+                         <a class="nav-link waves-effect waves-light {% if active == 'home' or active == 'family' or active == 'chatroom' or active == 'group' or active == 'dating' or active == 'news'%}btn-primary activenav{% endif %}"
+                        href="{{ url_for('main.home') }}" style="color: black; font-size: 20px;{% if active == 'home' or active == 'family' or active == 'chatroom' or active == 'group' or active == 'dating' or active == 'news'%}color:white; {% endif %}">&emsp;&emsp; Community &emsp;&emsp;</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect waves-light {% if active == 'job' or active == 'volunteer' %} btn-primary activenav {% endif %}"
+                        href="{{ url_for('main.job') }}" style="color: black; font-size: 20px;{% if active == 'job' or active == 'volunteer' %}color:white; {% endif %}"> &emsp;&emsp; Work &emsp;&emsp; </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect waves-light {% if active == 'living' %} btn-primary activenav{% endif %}"
+                        href="{{ url_for('main.living') }}" style="color: black; font-size: 20px;{% if active == 'living' %}color:white; {% endif %}">&emsp;&emsp; Health & Fitness&emsp;&emsp; </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect waves-light {% if active == 'games' %} btn-primary activenav  {% endif %}"
+                        href="{{ url_for('main.game') }}" style="color: black; font-size: 20px;{% if active == 'games' %}color:white; {% endif %}">&emsp;&emsp; Games&emsp;&emsp; </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect waves-light {% if active == 'schedule' %} btn-primary activenav {% endif %}"
+                        href="{{ url_for('main.calendar')}}" style="color: black; font-size: 20px;{% if active == 'schedule' %}color:white; {% endif %}">&emsp;&emsp; Schedule&emsp;&emsp; </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect waves-light {% if active == 'profile' %} btn-primary activenav{% endif %}"
+                        href="{{ url_for('users.profile') }}" style="color: black; font-size: 20px;{% if active == 'profile' %}color:white; {% endif %}"> &emsp;&emsp; Profile &emsp;&emsp;  </a>
+                    </li>
+                    <li class="nav-item" style="margin-left: 5px; margin-right: 10px">
+                        <a class="nav-link waves-effect waves-light"
+                        href="{{ url_for('main.search') }}" style="color: black; font-size: 20px;">
+                        <i class="fas fa-search" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item avatar dropdown" style="margin-top: 5px">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            <img src="{{ url_for('static', filename='profile_pictures/' + current_user.ProfilePicture) }}"
+                            class="rounded-circle z-depth-0" alt="avatar image"/></a>
+                        <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary"aria-labelledby="navbarDropdownMenuLink-55">
+                            <a class="dropdown-item" href="{{ url_for('users.profile_update') }}" style="color: black; font-size: 20px;"
+                               >Account Settings</a>
+                            <a class="dropdown-item" href="{{ url_for('users.logout') }}" style="color: black; font-size: 20px;"
+                                >Logout</a>
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect waves-light {% if active == 'signin' %} btn-primary activenav{% endif %}"
+                           href="{{ url_for('users.login') }}" style="color: black; font-size: 20px;{% if active == 'signin' %}color:white; {% endif %}"> &emsp;&emsp; Sign In &emsp;&emsp;  </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link waves-effect waves-light {% if active == 'signup' %} btn-primary activenav{% endif %}"
+                           href="{{ url_for('users.register') }}" style="color: black; font-size: 20px;{% if active == 'signup' %}color:white; {% endif %}"> &emsp;&emsp; Sign Up &emsp;&emsp;  </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
     </header>
-    <!--/.Double navigation-->
 
     <div style="margin-top: 70px; height: 720px">
-      {% with messages = get_flashed_messages(with_categories=true) %} {% if
-      messages %} {% for category, message in messages %}
-      <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
-
-      {% endfor %} {% endif %} {% endwith %}
-      <!-- This is where the inherited html outputted -->
-      {% block content %}{% endblock %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+      {% block content %}
+      {% endblock %}
     </div>
-
-    <!-- Footer -->
     <footer class="page-footer font-small unique-color-dark"></footer>
-    <!-- Footer -->
   </body>
 </html>

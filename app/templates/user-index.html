@@ -1,100 +1,93 @@
 {% extends "layout.html" %}
 {% block content%}
-    <div><h1>
-    <a href="{{ url_for('main.home') }}" class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'home' %} activenav {% endif %}">
-
+    <div style="background-color: #FAFAFA" >
+        <h1>
+            <a href="{{ url_for('main.home') }}" class="btn  {% if active == 'home' %} btn-primary activenav{% endif %}">
+                <div style="color: black;font-size: 20px; {% if active == 'home' %} color:white; {% endif %}" >
                     Posts
-                </a>
-            <a href="{{ url_for('main.family') }}" class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'family' %} activenav {% endif %}">
-                    Family
-                </a>
-            <a href="{{ url_for('main.chatroom') }}" class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'chatroom' %} activenav {% endif %}">
-                    Chat Rooms
-                </a>
-            <a href="{{ url_for('main.group') }}" class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'group' %} activenav {% endif %}">
-                    Groups
-                </a>
-            <a href="{{ url_for('main.dating') }}" class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'dating' %} activenav {% endif %}">
-                    Dating
-                </a>
-            <a href="{{ url_for('main.news') }}" class="btn btn-outline-primary nav-link waves-effect waves-light {% if active == 'news' %} activenav {% endif %}">
-                    Question/Answers
-                </a>
-    </h1>
-    </div>
-<div class="container">
-
-    <div class="row" style=" margin-top: -52px;">
-        <!-- Section: Blog v.3 -->
-        <section class="my-5 col-xl-9 card" style="background-color: white; padding-top: 10px;">
-
-            <hr>
-            {% if posts %}
-            {% for post in posts %}
-            <!-- Grid row -->
-            <div class="row">
-                {% if post.ImageFile %}
-                <!-- Grid column -->
-                <div class="col-lg-5 col-xl-4">
-
-                    <!-- Featured image -->
-                    <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
-                        <img class="img-fluid" src="{{ url_for('static', filename='post_images/' +
-                                post.ImageFile) }}" alt="Post Image">
-                        <a href="{{ url_for('posts.post', postID=post.id) }}">
-
-                            <div class="mask rgba-white-slight"></div>
-                        </a>
-                    </div>
-
                 </div>
-                <!-- Grid column -->
-                {% endif %}
-                <!-- Grid column -->
-                <div class="col-lg-7 col-xl-8">
+            </a>
 
-                    <!-- Post title -->
-                    <a href="{{ url_for('posts.post', postID=post.id) }}" style="color: black;">
-                        <h5 class="font-weight-bold mb-3"><strong>{{ post.Title }}</strong></h5>
-                    </a>
+            <a href="{{ url_for('main.family') }}" class="btn {% if active == 'family' %} btn-primary activenav {% endif %}">
+                <div style="color: black;font-size: 20px;{% if active == 'family' %} color:white; {% endif %}">
+                    Family
+                </div>
+            </a>
 
-                    <!-- Excerpt -->
-                    {% if post.Content[:100] %}
+            <a href="{{ url_for('main.chatroom') }}" class="btn {% if active == 'chatroom' %} btn-primary  activenav {% endif %}">
+                <div style="color: black;font-size: 20px;{% if active == 'chatroom' %} color:white; {% endif %}" >
+                    Chat Rooms
+                </div>
+            </a>
 
-                    <p class="dark-grey-text">{{ post.Content[:100] + (post.Content[100:] and '...') }}</p>
-                    <!-- Post data -->
-                    {% endif %}
+            <a href="{{ url_for('main.group') }}" class="btn {% if active == 'group' %}btn-primary  activenav {% endif %}">
+                <div style="color: black;font-size: 20px;{% if active == 'group' %} color:white; {% endif %}" >
+                    Groups
+                </div>
+            </a>
 
-                    <!-- Read more button -->
+            <a href="{{ url_for('main.dating') }}" class="btn  {% if active == 'dating' %}btn-primary  activenav {% endif %}">
+                <div style="color: black;font-size: 20px;{% if active == 'dating' %} color:white; {% endif %}" >
+                    Dating
+                </div>
+            </a>
 
-                    <a href="{{ url_for('main.user_profile', email=post.Author.Email) }}">
-                        <h6 class="font-weight-bold mb-3"><img style="max-width: 30px; margin-right: 10px;"
+            <a href="{{ url_for('main.news') }}" class="btn  {% if active == 'news' %} btn-primary  activenav {% endif %}">
+                <div style="color: black;font-size: 20px;{% if active == 'news' %} color:white; {% endif %}" >
+                    Question/Answers
+                </div>
+            </a>
+        </h1>
+    </div>
+<div class="container" style="padding-left:250px;">
+    <div class="row" style=" margin-top: -52px;">
+        <section class="my-5 col-xl-9 card" style="background-color: white; padding-top: 10px;">
+        <hr>
+            {% if posts %}
+                {% for post in posts %}
+                    <div class="row">
+                        {% if post.ImageFile %}
+                            <div class="col-lg-5 col-xl-4">
+                                <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
+                                    <img class="img-fluid" src="{{ url_for('static', filename='post_images/' +
+                                    post.ImageFile) }}" alt="Post Image">
+                                    <a href="{{ url_for('posts.post', postID=post.id) }}">
+                                        <div class="mask rgba-white-slight"></div>
+                                    </a>
+                                </div>
+                             </div>
+                        {% endif %}
+                        <div class="col-lg-7 col-xl-8">
+                            <a href="{{ url_for('posts.post', postID=post.id) }}" style="color: black;">
+                                <h5 class="font-weight-bold mb-3"><strong>{{ post.Title }}</strong></h5>
+                            </a>
+                            {% if post.Content[:100] %}
+                                <p class="dark-grey-text">{{ post.Content[:100] + (post.Content[100:] and '...') }}</p>
+                            {% endif %}
+                            <a href="{{ url_for('main.user_profile', email=post.Author.Email) }}">
+                                <h6 class="font-weight-bold mb-3"><img style="max-width: 30px; margin-right: 10px;"
                                 src="{{ url_for('static', filename='profile_pictures/' + post.Author.ProfilePicture) }}"
                                 class="img-fluid z-depth-1 rounded-circle"
                                 alt="Responsive image"><strong>{{ post.Author.FirstName }}
                                 {{ post.Author.LastName }}</strong> |
                             {{ post.DatePosted.strftime('%m/%d/%Y') }}</h6>
-                    </a>
-                </div>
-                <!-- Grid column -->
-
-            </div>
-            <!-- Grid row -->
-
-            <hr class="my-5">
-            {% endfor %}
+                            </a>
+                        </div>
+                    </div>
+                    <hr class="my-5">
+               {% endfor %}
             {% else %}
-            <img src="{{ url_for('static', filename='socialize.png') }}"" alt="">
+                <img src="{{ url_for('static', filename='socialize.png') }}" alt="">
                 <h3 class=" text-center">You don't have any friends/following.</h3>
             {% endif %}
         </section>
-        <!-- Section: Blog v.3 -->
-        <h1>What's on your mind?
-                <a href="{{ url_for('posts.create_post') }}" class="btn btn-outline-primary waves-effect"><i
-                        class="fas fa-magic mr-1"></i>
-                    Make a story
+        <div> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                <a href="{{ url_for('posts.create_post') }}" class="btn btn-primary waves-effect">
+                <div style="font-size: 20px">
+                    Create a Post
+                    </div>
                 </a>
-        </h1>
+        </div>
     </div>
 </div>
 

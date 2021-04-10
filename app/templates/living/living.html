@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 {% block content%}
-<div class="container">
+<div class="container" style="padding-left:250px;">
 
     <div class="row" style=" margin-top: -52px;">
         <!-- Section: Blog v.3 -->
         <section class="my-5 col-xl-9 card" style="background-color: white; padding-top: 10px;">
-            <h1> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Health & Fitness </h1>
+            <h1> &emsp;&emsp;&emsp;&emsp;&emsp;Health & Fitness </h1>
 
             <hr>
             {% if posts %}
@@ -61,12 +61,11 @@
         </section>
         <!-- Section: Blog v.3 -->
 
-        <h2>Things to know
-                <a href="{{ url_for('main.create_living_post') }}" class="btn btn-outline-primary waves-effect"><i
-                        class="fas fa-magic mr-1"></i>
-                    Post by Admin only
-                </a>
-            </h2>
+        <div> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; &emsp;&emsp;&emsp;
+        <a href="{{ url_for('main.create_job_post') }}" class="btn btn-primary waves-effect">
+            <div style = "font-size: 20px">Create a Post </div> (by admin only)
+        </a>
+    </div>
     </div>
 </div>
 

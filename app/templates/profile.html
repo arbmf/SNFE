@@ -7,10 +7,10 @@
             <p>{{ current_user.Email }}</p>
         </div>
         <div class="col-sm">
-            <a href="{{ url_for('users.profile_update') }}" class="btn btn-primary btn-rounded btn-sm">Edit
-                Profile</a>
+            <a href="{{ url_for('users.profile_update') }}" class="btn btn-white btn-rounded btn-sm"> <div style="color: black;font-size: 20px">Edit
+                Profile</div></a>
             <a href="{{ url_for('main.suggested_people') }}"
-                class="btn btn-primary btn-rounded btn-sm">Add Friends
+               class="btn btn-white btn-rounded btn-sm"><div style="color: black;font-size: 20px">Add Friends</div>
             </a>
         </div>
 
@@ -24,21 +24,21 @@
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
-                aria-selected="true">Posts</a>
+               aria-selected="true"><div style="color: black;font-size: 20px">Posts</div></a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="contact-tab" data-toggle="tab" href="#friends" role="tab" aria-controls="contact"
-                aria-selected="false">Friends 
+                aria-selected="false"><div style="color: black;font-size: 20px">Friends
                 {% if users|count %}
                 <span class="badge badge-primary badge-pill">
                         {{ users|count }}
                 </span>
-                {% endif %}
+                {% endif %}</div>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#friendrequest" role="tab"
-                aria-controls="profile" aria-selected="false">Friend Requests
+                aria-controls="profile" aria-selected="false"><div style="color: black;font-size: 20px">Friend Requests
                     {% set count = [0] %}
                     {% for follower in followers %}
                         {% if not current_user.is_following(follower) and follower.is_following(current_user) %}
@@ -47,76 +47,46 @@
                     {% endfor %}
                 <span class="badge badge-primary badge-pill">
                     {{ count[0] }}
-                </span>
+                </span></div>
             </a>
         </li>
 
     </ul>
     <div class="tab-content" id="myTabContent">
-
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <!-- Section: Blog v.1 -->
             <section class="my-5">
                 {% for post in posts %}
-                <!-- Grid row -->
-                <div class="row">
-                    {% if post.ImageFile %}
-                    <!-- Grid column -->
-                    <div class="col-lg-5">
-
-                        <!-- Featured image -->
-                        <div class="view overlay rounded z-depth-2 mb-lg-0 mb-4">
-                            <img class="img-fluid" src="{{ url_for('static', filename='post_images/' +
-                                    post.ImageFile) }}" alt="Post Image">
-                            <a href="{{ url_for('posts.post', postID=post.id) }}">
-
-                                <div class="mask rgba-white-slight"></div>
-                            </a>
-                        </div>
-
-                    </div>
-                    <!-- Grid column -->
-                    {% endif %}
-
-                    <!-- Grid column -->
-                    <div class="col-lg-7
-                        ">
-
-                        <!-- Category -->
-
-                        <a href="#!">
-
-                            <h6 class="font-weight-bold mb-3">{{ post.DatePosted.strftime('%a %d, %Y') }}</h6>
-                        </a>
-
-                        <!-- Post title -->
-                        <a href="{{ url_for('posts.post', postID=post.id) }}" class="black-text">
-                            <h3 class="font-weight-bold mb-3"><strong>{{ post.Title }}</strong></h3>
-                        </a>
-                        <!-- Excerpt -->
-                        {% if post.Content[:150] %}
-
-                        <p class="dark-grey-text">{{ post.Content[:150] + (post.Content[150:] and '...') }}</p>
-                        <!-- Post data -->
+                    <div class="row">
+                        {% if post.ImageFile %}
+                            <div class="col-lg-5">
+                                <div class="view overlay rounded z-depth-2 mb-lg-0 mb-4">
+                                    <img class="img-fluid" src="{{ url_for('static', filename='post_images/' +
+                                        post.ImageFile) }}" alt="Post Image">
+                                    <a href="{{ url_for('posts.post', postID=post.id) }}">
+                                        <div class="mask rgba-white-slight"></div>
+                                    </a>
+                                </div>
+                            </div>
                         {% endif %}
-
-                        <!-- Read more button -->
-                        <a class="btn btn-outline-primary waves-effect btn-sm"
-                            href="{{ url_for('posts.update_post', postID=post.id) }}">Edit</a>
-                        <form action="{{ url_for('posts.delete_post', postID=post.id) }}" style="display: inline-block;"
-                            method="POST">
-                            <button type="submit" class="btn btn-outline-danger waves-effect btn-sm">Delete</button>
-                        </form>
+                        <div class="col-lg-7">
+                            <a href="#!">
+                                <h6 class="font-weight-bold mb-3">{{ post.DatePosted.strftime('%a %d, %Y') }}</h6>
+                            </a>
+                            <a href="{{ url_for('posts.post', postID=post.id) }}" class="black-text">
+                                <h3 class="font-weight-bold mb-3"><strong>{{ post.Title }}</strong></h3>
+                            </a>
+                            {% if post.Content[:150] %}
+                                <p class="dark-grey-text">{{ post.Content[:150] + (post.Content[150:] and '...') }}</p>
+                            {% endif %}
+                            <a class="btn btn-outline-black waves-effect btn-sm" href="{{ url_for('posts.update_post', postID=post.id) }}"><div style="color: black;font-size: 20px">Edit</div></a>
+                            <form action="{{ url_for('posts.delete_post', postID=post.id) }}" style="display: inline-block;" method="POST">
+                                <button type="submit" class="btn btn-outline-black waves-effect btn-sm"><div style="color: black;font-size: 20px">Delete</div></button>
+                            </form>
+                        </div>
                     </div>
-                    <!-- Grid column -->
-
-                </div>
-                <!-- Grid row -->
-
                 <hr class="my-5">
                 {% endfor %}
             </section>
-            <!-- Section: Blog v.1 -->
         </div>
         <div class="tab-pane fade" id="friends" role="tabpanel" aria-labelledby="profile-tab">
             <ul class="list-group list-group-flush">
@@ -129,8 +99,8 @@
                         <a href="{{ url_for('main.user_profile', email=user.Email) }}">
                             <strong>{{ user.FirstName }} {{ user.LastName }}</strong>
                         </a>
-                        <a href="{{ url_for('users.unfriend', Email=user.Email) }}" class="btn btn-danger btn-rounded btn-sm">
-                            Unfriend
+                        <a href="{{ url_for('users.unfriend', Email=user.Email) }}" class="btn btn-outline-black btn-rounded btn-sm">
+                            <div style="color: black;font-size: 20px">Unfriend</div>
                         </a>
                     </li>
                     {% endfor %}
