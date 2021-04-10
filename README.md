@@ -6,7 +6,7 @@ A social network for elders.
 
 `$ chmod +x win_create`
 
-`$ ./win_create "Email" "Password"` (Use your gmail account and password for the admin account)
+`$ ./win_create "xyz@gmail.com" "password"` (Use your gmail account and password for the admin account)
 
 `$ venv\Scripts\activate`
 
