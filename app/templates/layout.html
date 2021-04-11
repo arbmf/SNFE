@@ -76,32 +76,32 @@
     <header style="color: white">
         <nav class="navbar white fixed-top ">
             <a class="navbar-brand" href="{{ url_for('main.home') }}"
-            style="font-size: 25px;font-weight: 900; color: black"><strong>INDULGE</strong></a>
+            style="font-size: 20px;font-weight: 900; color: black"><strong>INDULGE</strong></a>
             <ul class="nav navbar-nav nav-flex-icons ml-auto" >
                 {% if current_user.is_authenticated %}
                     <li class="nav-item" style="color: black">
                          <a class="nav-link waves-effect waves-light {% if active == 'home' or active == 'family' or active == 'chatroom' or active == 'group' or active == 'dating' or active == 'news'%}btn-primary activenav{% endif %}"
-                        href="{{ url_for('main.home') }}" style="color: black; font-size: 20px;{% if active == 'home' or active == 'family' or active == 'chatroom' or active == 'group' or active == 'dating' or active == 'news'%}color:white; {% endif %}">&emsp;&emsp; Community &emsp;&emsp;</a>
+                        href="{{ url_for('main.home') }}" style="color: black; font-size: 20px;{% if active == 'home' or active == 'family' or active == 'chatroom' or active == 'group' or active == 'dating' or active == 'news'%}color:white; {% endif %}">&ensp;Community &ensp;</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link waves-effect waves-light {% if active == 'job' or active == 'volunteer' %} btn-primary activenav {% endif %}"
-                        href="{{ url_for('main.job') }}" style="color: black; font-size: 20px;{% if active == 'job' or active == 'volunteer' %}color:white; {% endif %}"> &emsp;&emsp; Work &emsp;&emsp; </a>
+                        href="{{ url_for('main.job') }}" style="color: black; font-size: 20px;{% if active == 'job' or active == 'volunteer' %}color:white; {% endif %}"> &ensp;Work &ensp;</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link waves-effect waves-light {% if active == 'living' %} btn-primary activenav{% endif %}"
-                        href="{{ url_for('main.living') }}" style="color: black; font-size: 20px;{% if active == 'living' %}color:white; {% endif %}">&emsp;&emsp; Health & Fitness&emsp;&emsp; </a>
+                        href="{{ url_for('main.living') }}" style="color: black; font-size: 20px;{% if active == 'living' %}color:white; {% endif %}">&ensp;Health & Fitness&ensp; </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link waves-effect waves-light {% if active == 'games' %} btn-primary activenav  {% endif %}"
-                        href="{{ url_for('main.game') }}" style="color: black; font-size: 20px;{% if active == 'games' %}color:white; {% endif %}">&emsp;&emsp; Games&emsp;&emsp; </a>
+                        href="{{ url_for('main.game') }}" style="color: black; font-size: 20px;{% if active == 'games' %}color:white; {% endif %}">&ensp;Games&ensp;</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link waves-effect waves-light {% if active == 'schedule' %} btn-primary activenav {% endif %}"
-                        href="{{ url_for('main.calendar')}}" style="color: black; font-size: 20px;{% if active == 'schedule' %}color:white; {% endif %}">&emsp;&emsp; Schedule&emsp;&emsp; </a>
+                        href="{{ url_for('main.calendar')}}" style="color: black; font-size: 20px;{% if active == 'schedule' %}color:white; {% endif %}">&ensp;Schedule&ensp; </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link waves-effect waves-light {% if active == 'profile' %} btn-primary activenav{% endif %}"
-                        href="{{ url_for('users.profile') }}" style="color: black; font-size: 20px;{% if active == 'profile' %}color:white; {% endif %}"> &emsp;&emsp; Profile &emsp;&emsp;  </a>
+                        href="{{ url_for('users.profile') }}" style="color: black; font-size: 20px;{% if active == 'profile' %}color:white; {% endif %}">&ensp; Profile &ensp;</a>
                     </li>
                     <li class="nav-item" style="margin-left: 5px; margin-right: 10px">
                         <a class="nav-link waves-effect waves-light"
@@ -123,12 +123,12 @@
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link waves-effect waves-light {% if active == 'signin' %} btn-primary activenav{% endif %}"
-                           href="{{ url_for('users.login') }}" style="color: black; font-size: 20px;{% if active == 'signin' %}color:white; {% endif %}"> &emsp;&emsp; Sign In &emsp;&emsp;  </a>
+                        <a class="btn {% if active == 'home' %} btn-primary activenav{% endif %}"
+                           href="{{ url_for('users.login') }}" style="color: black; font-size: 20px;{% if active == 'home' %}color:white; {% endif %}"> &emsp;&emsp; Sign In &emsp;&emsp;  </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link waves-effect waves-light {% if active == 'signup' %} btn-primary activenav{% endif %}"
-                           href="{{ url_for('users.register') }}" style="color: black; font-size: 20px;{% if active == 'signup' %}color:white; {% endif %}"> &emsp;&emsp; Sign Up &emsp;&emsp;  </a>
+                        <a class="btn {% if active == 'home' %} btn-primary activenav{% endif %}"
+                           href="{{ url_for('users.register') }}" style="color: black; font-size: 20px;{% if active == 'home' %}color:white; {% endif %}"> &emsp;&emsp; Sign Up &emsp;&emsp;  </a>
                     </li>
                 {% endif %}
             </ul>

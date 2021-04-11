@@ -38,25 +38,25 @@
                             <!-- Remember me -->
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="materialLoginFormRemember">
-                                <label class="form-check-label" for="materialLoginFormRemember">Remember me</label>
+                                <label class="form-check-label" for="materialLoginFormRemember"><div style="font-size: 15px">Remember me</div></label>
                             </div>
                         </div>
                         <div>
                             <!-- Forgot password -->
-                            <a href="{{ url_for('users.reset_request') }}">Forgot password?</a>
+                            <a href="{{ url_for('users.reset_request') }}"><div style="font-size: 15px">Forgot password?</div></a>
                         </div>
                     </div>
                     <div class="text-center mb-3">
-                        <button type="submit" class="btn blue-gradient btn-block btn-rounded z-depth-1a">Sign
-                            in</button>
+                        <button type="submit" class="btn blue-gradient btn-block btn-rounded z-depth-1a"><div style="font-size: 20px">Sign
+                            in</div></button>
                     </div>
 
                 </div>
 
                 <!--Footer-->
                 <div class="modal-footer mx-5 pt-3 mb-1">
-                    <p class="font-small grey-text d-flex justify-content-end">Not a member yet?
-                        <a href="{{ url_for('users.register') }}" class="blue-text ml-1"> Sign Up</a>
+                    <p class="font-small grey-text d-flex justify-content-end"><div style="font-size: 15px">Not a member yet?</div>
+                    <a href="{{ url_for('users.register') }}" class="blue-text ml-1"> <div style="font-size: 15px">Sign Up</div></a>
                     </p>
                 </div>
 

@@ -56,7 +56,7 @@ def home():
         return render_template('user-index.html', posts=posts, users=users, active='home')
 
     # posts = Post.query.order_by(Post.DatePosted.desc())
-    return render_template('index.html', form=form)
+    return render_template('register.html', form=form)
 
 
 @main.route("/family")
