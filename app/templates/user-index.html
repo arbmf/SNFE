@@ -39,43 +39,59 @@
             </a>
         </h1>
     </div>
+<div style = "position:relative;color: green; height: 40px;">
+    <a class="prev" style="left:30%;" onclick="plusSlides(-1)">
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&#10094; Previous Post
+    </a>
+    <a class="next" style="right:30%;" onclick="plusSlides(1)">
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Next Post &#10095;
+    </a>
+</div>
 <div class="container" style="padding-left:250px;">
+
     <div class="row" style=" margin-top: -52px;">
         <section class="my-5 col-xl-9 card" style="background-color: white; padding-top: 10px;">
         <hr>
             {% if posts %}
-                {% for post in posts %}
-                    <div class="row">
-                        {% if post.ImageFile %}
-                            <div class="col-lg-5 col-xl-4">
-                                <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
-                                    <img class="img-fluid" src="{{ url_for('static', filename='post_images/' +
-                                    post.ImageFile) }}" alt="Post Image">
-                                    <a href="{{ url_for('posts.post', postID=post.id) }}">
-                                        <div class="mask rgba-white-slight"></div>
-                                    </a>
-                                </div>
-                             </div>
-                        {% endif %}
-                        <div class="col-lg-7 col-xl-8">
-                            <a href="{{ url_for('posts.post', postID=post.id) }}" style="color: black;">
-                                <h5 class="font-weight-bold mb-3"><strong>{{ post.Title }}</strong></h5>
-                            </a>
-                            {% if post.Content[:100] %}
-                                <p class="dark-grey-text">{{ post.Content[:100] + (post.Content[100:] and '...') }}</p>
+
+                <div class="slideshow-container">
+
+                    {% for post in posts %}
+                        <div class="mySlides">
+                        <div class="row">
+                            {% if post.ImageFile %}
+                                <div class="col-lg-5 col-xl-4">
+                                    <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
+                                        <img class="img-fluid" src="{{ url_for('static', filename='post_images/' +
+                                        post.ImageFile) }}" alt="Post Image">
+                                        <a href="{{ url_for('posts.post', postID=post.id) }}">
+                                            <div class="mask rgba-white-slight"></div>
+                                        </a>
+                                    </div>
+                                 </div>
                             {% endif %}
-                            <a href="{{ url_for('main.user_profile', email=post.Author.Email) }}">
-                                <h6 class="font-weight-bold mb-3"><img style="max-width: 30px; margin-right: 10px;"
-                                src="{{ url_for('static', filename='profile_pictures/' + post.Author.ProfilePicture) }}"
-                                class="img-fluid z-depth-1 rounded-circle"
-                                alt="Responsive image"><strong>{{ post.Author.FirstName }}
-                                {{ post.Author.LastName }}</strong> |
-                            {{ post.DatePosted.strftime('%m/%d/%Y') }}</h6>
-                            </a>
+                            <div class="col-lg-7 col-xl-8">
+                                <a href="{{ url_for('posts.post', postID=post.id) }}" style="color: black;">
+                                    <h5 class="font-weight-bold mb-3"><strong>{{ post.Title }}</strong></h5>
+                                </a>
+                                {% if post.Content[:100] %}
+                                    <p class="dark-grey-text">{{ post.Content[:100] + (post.Content[100:] and '...') }}</p>
+                                {% endif %}
+                                <a href="{{ url_for('main.user_profile', email=post.Author.Email) }}">
+                                    <h6 class="font-weight-bold mb-3"><img style="max-width: 30px; margin-right: 10px;"
+                                    src="{{ url_for('static', filename='profile_pictures/' + post.Author.ProfilePicture) }}"
+                                    class="img-fluid z-depth-1 rounded-circle"
+                                    alt="Responsive image"><strong>{{ post.Author.FirstName }}
+                                    {{ post.Author.LastName }}</strong> |
+                                {{ post.DatePosted.strftime('%m/%d/%Y') }}</h6>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <hr class="my-5">
+                        <hr class="my-5">
+                        </div>
                {% endfor %}
+                </div>
+                </div>
             {% else %}
                 <img src="{{ url_for('static', filename='socialize.png') }}" alt="">
                 <h3 class=" text-center">You don't have any friends/following.</h3>
@@ -89,6 +105,5 @@
                 </a>
         </div>
     </div>
-</div>
 
 {% endblock %}
