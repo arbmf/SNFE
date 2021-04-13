@@ -2,10 +2,11 @@ from flask import (render_template, url_for, flash,
                    redirect, request, Blueprint)
 from flask_login import current_user, login_required
 from app import db
-from app.models import Post
+from app.models import Post, User
 from app.posts.forms import NewPost
 from app.posts.utils import save_post_image
 from datetime import timedelta
+from app import socketio
 
 # The first argument is use to navigate different routes using that Blueprint
 posts = Blueprint('posts', __name__)
@@ -36,7 +37,34 @@ def create_post():
 @posts.route("/posts/<int:postID>", methods=['GET', 'POST'])
 def post(postID):
     post = Post.query.get_or_404(postID)
-    return render_template('posts/post.html', title="Posts", post=post)
+    socketio.on_event("like", like)
+    user = db.session.query(User).get(current_user.id)
+    print(user.has_liked(post))
+    likedUsers = len(post.LikedUsers.all())
+    return render_template('posts/post.html', title="Posts", post=post, likedUsers=likedUsers)
+
+
+@socketio.on("like")
+def like(postID):
+    print(postID)
+    # chatroom = Chatroom.query.get_or_404(room_id)
+    post = Post.query.get_or_404(postID)
+    user = db.session.query(User).get(current_user.id)
+    if(not user.has_liked(post)):
+        user.like(post)
+        db.session.commit()
+    likedUsers = len(post.LikedUsers.all())
+    socketio.emit("likedUsers", {"likedUsers": likedUsers})
+    # user.ChatroomId = chatroom.id
+    # chatroom.Members.append(user)
+    # db.session.commit()
+    # flask_socketio.join_room(room_id)
+    # socketio.emit("join_b", {"ProfilePicture": current_user.ProfilePicture,
+    #                          "FirstName": current_user.FirstName,
+    #                          "Members" : getMembersAsList(chatroom.Members)
+    #                          }
+    #               , room=room_id)
+    print(user.has_liked(post))
 
 
 @posts.route("/posts/<int:postID>/update", methods=['GET', 'POST'])

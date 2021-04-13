@@ -35,6 +35,11 @@ Followers = db.Table('followers',
                                db.ForeignKey('user.id'))
                      )
 
+UserLikedPosts = db.Table('user_liked_posts',
+                          db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+                          db.Column('post_id', db.Integer, db.ForeignKey('post.id'))
+                          )
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     FirstName = db.Column(db.String(20), nullable=False)
@@ -48,6 +53,7 @@ class User(db.Model, UserMixin):
     Followed = db.relationship('User', secondary=Followers, primaryjoin=(Followers.c.follower_id == id),
                                secondaryjoin=(Followers.c.followed_id == id),
                                backref=db.backref('Followers', lazy='dynamic'), lazy='dynamic')
+    UserLikedPosts = db.relationship('Post',primaryjoin=(UserLikedPosts.c.user_id == id), secondary=UserLikedPosts,backref=db.backref('LikedUsers', lazy='dynamic'), lazy='dynamic')
     # `roles` and `groups` are reserved words that *must* be defined
     # on the `User` model to use group- or role-based authorization.
     roles = db.relationship('Role', secondary=UserRole)
@@ -80,13 +86,18 @@ class User(db.Model, UserMixin):
         if not self.is_following(user):
             self.Followed.append(user)
 
+    def like(self, post):
+        if not self.has_liked(post):
+            self.UserLikedPosts.append(post)
+
     def unfollow(self, user):
         if self.is_following(user):
             self.Followed.remove(user)
 
     def is_following(self, user):
         return self.Followed.filter(Followers.c.followed_id == user.id).count() > 0
-
+    def has_liked(self, post):
+        return self.UserLikedPosts.filter(UserLikedPosts.c.post_id == post.id ).count() > 0
     def followed_posts(self):
         Followed = Post.query.join(Followers, (Followers.c.followed_id == Post.UserID)).filter(
             Followers.c.follower_id == self.id)

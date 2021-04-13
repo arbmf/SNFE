@@ -8,9 +8,6 @@
   content="{{ url_for('static', filename='post_images/' +
 post.ImageFile) }}"
 />
-<script>
-  var postID = "{{post.id}}";
-</script>
 <main>
   <br />
   <!-- Card -->
@@ -43,22 +40,8 @@ post.ImageFile) }}"
       </h6>
       <!-- Text -->
       <p class="card-text">{{ post.Content }}</p>
-      <div style="width: 30%; margin: auto">
-        <button id="like" class="btn-primary" style="width: 75px; float: left">
-          <i class="fa fa-thumbs-up"></i>
-          Like
-        </button>
-        <p
-          id="likeText"
-          style="
-            padding-left: 8px;
-            padding-top: 5px;
-            font-weight: bold;
-            float: left;
-          "
-        >
-          {{likedUsers}} people like this
-        </p>
+      <div>
+        <button style="float: left" class="btn-primary">Like</button>
         <!-- Load Facebook SDK for JavaScript -->
         <div id="fb-root"></div>
         <script
@@ -70,7 +53,6 @@ post.ImageFile) }}"
 
         <!-- Your share button code -->
         <div
-          style="float: right"
           class="fb-share-button"
           data-href="{{ url_for('posts.post', postID=post.id) }}"
           data-layout="button_count"
@@ -89,6 +71,5 @@ post.ImageFile) }}"
   <!-- Card -->
   <br />
   <br />
-  <script src="{{ url_for('static', filename='js/post.js') }}"></script>
 </main>
 {% endblock %}
