@@ -41,7 +41,7 @@ def home():
         flash('Signed in!', 'success')
         return redirect(url_for('main.home'))
     if current_user.is_authenticated:
-        posts = current_user.followed_posts().all()
+        posts = Post.query.all()
         # users = User.query.filter(User.id != current_user.id).order_by(
         #     func.random()).limit(3).all()
         print("Users")

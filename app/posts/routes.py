@@ -2,7 +2,7 @@ from flask import (render_template, url_for, flash,
                    redirect, request, Blueprint)
 from flask_login import current_user, login_required
 from app import db
-from app.models import Post, User
+from app.models import Post, User,Family,News,Job,Living,Volunteer
 from app.posts.forms import NewPost
 from app.posts.utils import save_post_image
 from datetime import timedelta
@@ -43,6 +43,30 @@ def post(postID):
     likedUsers = len(post.LikedUsers.all())
     return render_template('posts/post.html', title="Posts", post=post, likedUsers=likedUsers)
 
+@posts.route("/family_posts/<int:postID>", methods=['GET', 'POST'])
+def family_post(postID):
+    post = Family.query.get_or_404(postID)
+    return render_template('family/family_post.html', title="Posts", post=post)
+
+@posts.route("/news_post/<int:postID>", methods=['GET', 'POST'])
+def news_post(postID):
+    post = News.query.get_or_404(postID)
+    return render_template('news/news_post.html', title="Posts", post=post)
+
+@posts.route("/job_post/<int:postID>", methods=['GET', 'POST'])
+def job_post(postID):
+    post = Job.query.get_or_404(postID)
+    return render_template('job/job_post.html', title="Posts", post=post)
+
+@posts.route("/vol_post/<int:postID>", methods=['GET', 'POST'])
+def vol_post(postID):
+    post = Volunteer.query.get_or_404(postID)
+    return render_template('volunteer/volunteer_post.html', title="Posts", post=post)
+
+@posts.route("/living_post/<int:postID>", methods=['GET', 'POST'])
+def living_post(postID):
+    post = Living.query.get_or_404(postID)
+    return render_template('living/living_post.html', title="Posts", post=post)
 
 @socketio.on("like")
 def like(postID):

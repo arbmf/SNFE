@@ -63,14 +63,14 @@
                                 <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
                                     <img class="img-fluid" src="{{ url_for('static', filename='post_images/' +
                                      post.ImageFile) }}" alt="Post Image">
-                                    <a href="{{ url_for('main.family', postID=post.id) }}">
+                                    <a href="{{ url_for('posts.family_post', postID=post.id) }}">
                                         <div class="mask rgba-white-slight"></div>
                                     </a>
                                 </div>
                             </div>
                         {% endif %}
                     <div class="col-lg-7 col-xl-8">
-                        <a href="{{ url_for('main.family', postID=post.id) }}" style="color: black;">
+                        <a href="{{ url_for('posts.family_post', postID=post.id) }}" style="color: black;">
                             <h5 class="font-weight-bold mb-3"><strong>{{ post.Title }}</strong></h5>
                         </a>
                         {% if post.Content[:100] %}

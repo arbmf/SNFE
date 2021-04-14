@@ -1,0 +1,49 @@
+{% extends "layout.html" %} {% block content%}
+<meta property="og:url" content="{{ url_for('posts.post', postID=post.id) }}" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="{{ post.Title }}" />
+<meta property="og:description" content="{{ post.Content }}" />
+<meta
+  property="og:image"
+  content="{{ url_for('static', filename='family_images/' +
+post.ImageFile) }}"
+/>
+<script>
+  var postID = "{{post.id}}";
+</script>
+<main>
+  <br />
+  <!-- Card -->
+  <div class="card card-cascade wider reverse">
+    {% if post.ImageFile %}
+    <!-- Card image -->
+    <div class="view view-cascade overlay">
+      <img
+        class="card-img-top"
+        src="{{ url_for('static', filename='family_images/' +
+            post.ImageFile) }}"
+        alt="Card image cap"
+      />
+      <a href="#!">
+        <div class="mask rgba-white-slight"></div>
+      </a>
+    </div>
+    {% endif %}
+
+    <!-- Card content -->
+    <div class="card-body card-body-cascade text-center">
+      <!-- Title -->
+      <h4 class="card-title"><strong>{{ post.Title }}</strong></h4>
+
+      <!-- Text -->
+      <p class="card-text">{{ post.Content }}</p>
+
+      </div>
+    </div>
+  </div>
+  <!-- Card -->
+  <br />
+  <br />
+  <script src="{{ url_for('static', filename='js/post.js') }}"></script>
+</main>
+{% endblock %}
