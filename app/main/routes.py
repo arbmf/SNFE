@@ -12,9 +12,9 @@ from app.posts.utils import save_post_image
 from werkzeug.exceptions import NotFound, Unauthorized
 main = Blueprint('main', __name__)
 
-
 @main.route("/", methods=['GET', 'POST'])
-def home():
+@main.route("/home/<string:order>", methods=['GET', 'POST'])
+def home(order='time'):
     users = []
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -32,9 +32,6 @@ def home():
         db.session.commit()
         # user = db.session.query(User).get(current_user.id)
 
-        print("Users")
-        print(user.roles)
-        print(current_user.roles)
         # Login the user with the session duration set
         login_user(user, duration=timedelta)
         # Second argument is optional, uses to assign what category the message is
@@ -44,19 +41,20 @@ def home():
         posts = Post.query.order_by(Post.DatePosted.desc()).all()
         # users = User.query.filter(User.id != current_user.id).order_by(
         #     func.random()).limit(3).all()
-        print("Users")
-        print(current_user.roles)
         tempUsers = User.query.filter(
             User.id != current_user.id).order_by(func.random()).all()
         likes = {}
         for i in range(len(posts)):
             likes[posts[i]] = len(posts[i].LikedUsers.all())
-        print(likes)
         for tempUser in tempUsers:
             if not current_user.is_following(tempUser) and len(users) <= 2:
                 users.append(tempUser)
-
-        return render_template('user-index.html', posts=likes, users=users, active='home')
+        if order=='popularity':
+            sorted_likes = sorted(likes.items(),key=lambda item : item[1],reverse=True)
+            likes = {k: v for k, v in sorted_likes}
+            return render_template('user-index.html', posts=likes, users=users, active='home',subactive='popularity')
+        else:
+            return render_template('user-index.html', posts=likes, users=users, active='home',subactive='time')
 
     # posts = Post.query.order_by(Post.DatePosted.desc())
     return render_template('register.html', form=form)

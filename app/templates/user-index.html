@@ -2,7 +2,7 @@
 {% block content%}
     <div style="background-color: #FAFAFA" >
         <h1>
-            <a href="{{ url_for('main.home') }}" class="btn  {% if active == 'home' %} btn-primary activenav{% endif %}">
+            <a href="{{ url_for('main.home',order='time') }}" class="btn  {% if active == 'home' %} btn-primary activenav{% endif %}">
                 <div style="color: black;font-size: 20px; {% if active == 'home' %} color:white; {% endif %}" >
                     Posts
                 </div>
@@ -41,13 +41,23 @@
     </div>
 <div style = "position:relative;color: green; height: 40px;">
     <a class="prev" style="left:30%;" onclick="plusSlides(-1)">
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&#10094; Previous Post
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&#10094; Previous Post &emsp;&emsp;&emsp;&emsp;&emsp;
     </a>
+    <a href="{{ url_for('main.home',order='time') }}" class="btn  {% if subactive == 'time' %} btn-green activenav{% endif %}">
+                <div style="color: black;font-size: 15px; {% if subactive == 'time' %} color:white; {% endif %}" >
+                    Time
+                </div>
+            </a>
+    <a href="{{ url_for('main.home',order='popularity') }}" class="btn  {% if subactive == 'popularity' %} btn-green activenav{% endif %}">
+                <div style="color: black;font-size: 15px; {% if subactive == 'popularity' %} color:white; {% endif %}" >
+                    Popularity
+                </div>
+            </a>
     <a class="next" style="right:30%;" onclick="plusSlides(1)">
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Next Post &#10095;
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Next Post &#10095;
     </a>
 </div>
-<div class="container" style="padding-left:250px;">
+<div class="container" style="padding-left:250px;padding-top: 30px;">
 
     <div class="row" style=" margin-top: -52px;">
         <section class="my-5 col-xl-9 card" style="background-color: white; padding-top: 10px;">
