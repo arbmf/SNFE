@@ -41,19 +41,22 @@ def home():
         flash('Signed in!', 'success')
         return redirect(url_for('main.home'))
     if current_user.is_authenticated:
-        posts = Post.query.all()
+        posts = Post.query.order_by(Post.DatePosted.desc()).all()
         # users = User.query.filter(User.id != current_user.id).order_by(
         #     func.random()).limit(3).all()
         print("Users")
         print(current_user.roles)
         tempUsers = User.query.filter(
             User.id != current_user.id).order_by(func.random()).all()
-
+        likes = {}
+        for i in range(len(posts)):
+            likes[posts[i]] = len(posts[i].LikedUsers.all())
+        print(likes)
         for tempUser in tempUsers:
             if not current_user.is_following(tempUser) and len(users) <= 2:
                 users.append(tempUser)
 
-        return render_template('user-index.html', posts=posts, users=users, active='home')
+        return render_template('user-index.html', posts=likes, users=users, active='home')
 
     # posts = Post.query.order_by(Post.DatePosted.desc())
     return render_template('register.html', form=form)
@@ -64,7 +67,7 @@ def home():
 # @authorize.has_role('user')
 def family():
     if current_user.is_authenticated:
-        family_posts = Family.query.all()
+        family_posts = Family.query.order_by(Family.DatePosted.desc()).all()
         for post in family_posts:
             print(post.Title,post.Content)
         return render_template('family/family.html', posts=family_posts, active='family')
@@ -94,7 +97,7 @@ def create_family_post():
 def chatroom():
     chatrooms = []
     if current_user.is_authenticated:
-        chatrooms = Chatroom.query.all()
+        chatrooms = Chatroom.query.order_by(Chatroom.id.desc()).all()
         for chatroom in chatrooms:
             print(chatroom.Title)
 
@@ -130,7 +133,7 @@ def dating():
 @login_required
 def job():
     if current_user.is_authenticated:
-        job_posts = Job.query.all()
+        job_posts = Job.query.order_by(Job.DatePosted.desc()).all()
         for post in job_posts:
             print(post.Title, post.Content)
         return render_template('job/jobs.html', posts=job_posts, active='job')
@@ -159,7 +162,7 @@ def create_job_post():
 @login_required
 def volunteer():
     if current_user.is_authenticated:
-        volunteer_posts = Volunteer.query.all()
+        volunteer_posts = Volunteer.query.order_by(Volunteer.DatePosted.desc()).all()
         for post in volunteer_posts:
             print(post.Title, post.Content)
         return render_template('volunteer/volunteers.html', posts=volunteer_posts, active='volunteer')
@@ -188,7 +191,7 @@ def create_volunteer_post():
 @login_required
 def living():
     if current_user.is_authenticated:
-        living_posts = Living.query.all()
+        living_posts = Living.query.order_by(Living.DatePosted.desc()).all()
         for post in living_posts:
             print(post.Title, post.Content)
         return render_template('living/living.html', posts=living_posts, active='living')
@@ -230,7 +233,7 @@ def game():
 @login_required
 def news():
     if current_user.is_authenticated:
-        news_posts = News.query.all()
+        news_posts = News.query.order_by(News.DatePosted.desc()).all()
         for post in news_posts:
             print(post.Title, post.Content)
         return render_template('news/news.html', posts=news_posts, active='news')
