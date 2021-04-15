@@ -62,13 +62,13 @@ class VolunteerForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
 
-class NewsForm(FlaskForm):
+class LivingForm(FlaskForm):
     postImage = FileField('Add Image', validators=[
         FileAllowed(['jpg', 'png', 'jpeg'])])
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
 
-class LivingForm(FlaskForm):
+class QuestionForm(FlaskForm):
     postImage = FileField('Add Image', validators=[
         FileAllowed(['jpg', 'png', 'jpeg'])])
     title = StringField('Title', validators=[DataRequired()])

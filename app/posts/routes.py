@@ -2,7 +2,7 @@ from flask import (render_template, url_for, flash,
                    redirect, request, Blueprint)
 from flask_login import current_user, login_required
 from app import db
-from app.models import Post, User,Family,News,Job,Living,Volunteer
+from app.models import Post, User,Family,Job,Living,Volunteer,Question
 from app.posts.forms import NewPost
 from app.posts.utils import save_post_image
 from datetime import timedelta
@@ -47,6 +47,15 @@ def post(postID):
 def family_post(postID):
     post = Family.query.get_or_404(postID)
     return render_template('family/family_post.html', title="Posts", post=post)
+
+@posts.route("/questions/<int:questionID>", methods=['GET', 'POST'])
+def question(questionID):
+    post = Question.query.get_or_404(questionID)
+    # socketio.on_event("like", like)
+    user = db.session.query(User).get(current_user.id)
+    # print(user.has_liked_q(post))
+    # likedUsers = len(post.LikedUsers.all())
+    return render_template('question/question_post.html', title="Questions", post=post)
 
 @posts.route("/news_post/<int:postID>", methods=['GET', 'POST'])
 def news_post(postID):

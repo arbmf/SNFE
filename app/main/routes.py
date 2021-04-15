@@ -2,12 +2,11 @@ from flask import (render_template, request, Blueprint,
                    redirect, url_for, flash, make_response)
 from flask_login import login_user, current_user, logout_user, login_required
 from app import db, bcrypt, authorize
-from app.models import User, Post, Chatroom, Living, News, Job, Volunteer, Family, Role
-from app.main.forms import RegistrationForm, SearchForm, InterestForm
+from app.models import User, Post, Chatroom, Living,  Job, Volunteer, Family, Role, Question
+from app.main.forms import RegistrationForm, SearchForm, InterestForm,QuestionForm,FamilyForm,JobForm,VolunteerForm,LivingForm
 from datetime import timedelta
 from sqlalchemy.sql.expression import func
 import pdfkit
-from app.main.forms import  FamilyForm,JobForm,VolunteerForm,NewsForm,LivingForm
 from app.posts.utils import save_post_image
 from werkzeug.exceptions import NotFound, Unauthorized
 main = Blueprint('main', __name__)
@@ -227,27 +226,28 @@ def game():
                 users.append(tempUser)
         return render_template('games/games.html', posts=posts, users=users, active='games')
 
-@main.route("/news")
+@main.route("/question")
 @login_required
-def news():
+def question():
     if current_user.is_authenticated:
-        news_posts = News.query.order_by(News.DatePosted.desc()).all()
-        for post in news_posts:
+        question_posts = Question.query.order_by(Question.DatePosted.desc()).all()
+        for post in question_posts:
             print(post.Title, post.Content)
-        return render_template('news/news.html', posts=news_posts, active='news')
+        return render_template('question/question.html', posts=question_posts, active='question')
 
-@main.route("/create_news_post", methods=['GET', 'POST'])
+@main.route("/create_question_post", methods=['GET', 'POST'])
 @login_required
-def create_news_post():
-    form = NewsForm()
+def create_question_post():
+    form = QuestionForm()
     if form.validate_on_submit():
         postImage = ""
         if form.postImage.data:
             postImage = save_post_image(form.postImage.data)
-        post = News(
+        post = Question(
             Title=form.title.data,
             Content=form.content.data,
-            ImageFile=postImage
+            ImageFile=postImage,
+            Author=current_user
         )
         db.session.add(post)
         db.session.commit()
