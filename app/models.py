@@ -54,14 +54,14 @@ class User(db.Model, UserMixin):
     ProfilePicture = db.Column(
         db.String(20), nullable=False, default='default.png')
     Posts = db.relationship('Post', backref='Author', lazy=True)
-    # Questions = db.relationship('Question',backref='Authorq',lazy=True)
+    Questions = db.relationship('Question',backref='Authorq',lazy=True)
     ChatroomId = db.Column(db.Integer, db.ForeignKey('chatroom.id'))
     Followed = db.relationship('User', secondary=Followers, primaryjoin=(Followers.c.follower_id == id),
                                secondaryjoin=(Followers.c.followed_id == id),
                                backref=db.backref('Followers', lazy='dynamic'), lazy='dynamic')
     UserLikedPosts = db.relationship('Post',primaryjoin=(UserLikedPosts.c.user_id == id), secondary=UserLikedPosts,backref=db.backref('LikedUsers', lazy='dynamic'), lazy='dynamic')
-    # UserLikedQuestions = db.relationship('Question', primaryjoin=(UserLikedQuestions.c.user_id == id), secondary=UserLikedQuestions,
-    #                                  backref=db.backref('LikedUsers', lazy='dynamic'), lazy='dynamic')
+    UserLikedQuestions = db.relationship('Question', primaryjoin=(UserLikedQuestions.c.user_id == id), secondary=UserLikedQuestions,
+                                     backref=db.backref('LikedUsersQ', lazy='dynamic'), lazy='dynamic')
     roles = db.relationship('Role', secondary=UserRole)
     groups = db.relationship('Group', secondary=UserGroup)
 
@@ -106,10 +106,10 @@ class User(db.Model, UserMixin):
         return self.Followed.filter(Followers.c.followed_id == user.id).count() > 0
 
     def has_liked(self, post):
-        return self.UserLikedPosts.filter(UserLikedPosts.c.post_id == post.id ).count() > 0
+        return self.UserLikedPosts.filter(UserLikedPosts.c.post_id == post.id).count() > 0
 
     def has_liked_q(self, question):
-        return self.UserLikedQuestions.filter(UserLikedQuestions.c.question_id == question.id ).count() > 0
+        return self.UserLikedQuestions.filter(UserLikedQuestions.c.question_id == question.id).count() > 0
 
     def followed_posts(self):
         Followed = Post.query.join(Followers, (Followers.c.followed_id == Post.UserID)).filter(
@@ -124,19 +124,10 @@ class Question(db.Model):
                            default=datetime.utcnow)
     Content = db.Column(db.Text, nullable=False)
     ImageFile = db.Column(db.String(20))
-    # UserID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    UserID = db.Column(db.Integer,db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f"Question('{self.Title}', '{self.DatePosted}')"
-
-class News(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    Title = db.Column(db.String(100), nullable=False)
-    DatePosted = db.Column(db.DateTime, nullable=False,
-                           default=datetime.utcnow)
-    Content = db.Column(db.Text, nullable=False)
-    ImageFile = db.Column(db.String(20))
-
 
 class Group(db.Model, RestrictionsMixin):
     id = db.Column(db.Integer, primary_key=True)

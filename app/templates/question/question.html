@@ -32,94 +32,90 @@
                 </div>
             </a>
 
-            <a href="{{ url_for('main.question') }}" class="btn  {% if active == 'news' %} btn-primary  activenav {% endif %}">
-                <div style="color: black;font-size: 20px;{% if active == 'news' %} color:white; {% endif %}" >
+            <a href="{{ url_for('main.question',order='time') }}" class="btn  {% if active == 'question' %} btn-primary  activenav {% endif %}">
+                <div style="color: black;font-size: 20px;{% if active == 'question' %} color:white; {% endif %}" >
                     Question/Answers
                 </div>
             </a>
         </h1>
     </div>
-    <div style = "position:relative;color: green; height: 40px;">
+<div style = "position:relative;color: green; height: 40px;">
     <a class="prev" style="left:30%;" onclick="plusSlides(-1)">
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&#10094; Previous Post
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&#10094; Previous Post &emsp;&emsp;&emsp;&emsp;&emsp;
     </a>
+    <a href="{{ url_for('main.question',order='time') }}" class="btn  {% if subactive == 'time' %} btn-green activenav{% endif %}">
+                <div style="color: black;font-size: 17px; {% if subactive == 'time' %} color:white; {% endif %}" >
+                    New
+                </div>
+            </a>
+    <a href="{{ url_for('main.question',order='popularity') }}" class="btn  {% if subactive == 'popularity' %} btn-green activenav{% endif %}">
+                <div style="color: black;font-size: 17px; {% if subactive == 'popularity' %} color:white; {% endif %}" >
+                    Popular
+                </div>
+            </a>
     <a class="next" style="right:30%;" onclick="plusSlides(1)">
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Next Post &#10095;
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Next Post &#10095;
     </a>
 </div>
-<div class="container" style="padding-left:250px;">
+<div class="container" style="padding-left:250px;padding-top: 30px;">
 
     <div class="row" style=" margin-top: -52px;">
-        <!-- Section: Blog v.3 -->
         <section class="my-5 col-xl-9 card" style="background-color: white; padding-top: 10px;">
-
-            <hr>
+        <hr>
             {% if posts %}
+
                 <div class="slideshow-container">
-            {% for post in posts %}
-                <div class="mySlides">
-            <!-- Grid row -->
-            <div class="row">
-                {% if post.ImageFile %}
-                <!-- Grid column -->
-                <div class="col-lg-5 col-xl-4">
 
-                    <!-- Featured image -->
-                    <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
-                        <img class="img-fluid" src="{{ url_for('static', filename='news_images/' +
-                                post.ImageFile) }}" alt="Post Image">
-                        <a href="{{ url_for('posts.news_post', postID=post.id) }}">
+                    {% for post,like in posts.items() %}
+                        <div class="mySlides">
+                        <a href="{{ url_for('main.user_profile', email=post.Authorq.Email) }}">
+                                    <div class="font-weight-bold mb-3" style="font-size: 15px;"><img style="max-width: 30px; margin-right: 10px;"
+                                    src="{{ url_for('static', filename='profile_pictures/' + post.Authorq.ProfilePicture) }}"
+                                    class="img-fluid z-depth-1 rounded-circle"
+                                    alt="Responsive image">{{ post.Authorq.FirstName }}
+                                    {{ post.Authorq.LastName }} |
+                                {{ post.DatePosted.strftime('%m/%d/%Y') }}</div>
+                                </a>
+                        <div class="row">
+                            {% if post.ImageFile %}
+                                <div class="col-lg-5 col-xl-4">
+                                    <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
+                                        <img class="img-fluid" src="{{ url_for('static', filename='question_images/' +
+                                        post.ImageFile) }}" alt="Post Image">
+                                        <a href="{{ url_for('posts.question', questionID=post.id) }}">
+                                            <div class="mask rgba-white-slight"></div>
+                                        </a>
+                                    </div>
+                                 </div>
+                            {% endif %}
+                            <div class="col-lg-7 col-xl-8">
+                                <a href="{{ url_for('posts.question', questionID=post.id) }}" style="color: black;">
+                                    <h5 class="font-weight-bold mb-3">{{ post.Title }} <p style="font-size: 15px;color: indigo;">{{ like }} likes</p></h5>
+                                </a>
+                                {% if post.Content[:100] %}
+                                    <p class="dark-grey-text">{{ post.Content[:100] + (post.Content[100:] and '...') }}</p>
+                                {% endif %}
 
-                            <div class="mask rgba-white-slight"></div>
-                        </a>
-                    </div>
 
+                            </div>
+                        </div>
+                        <hr class="my-5">
+                        </div>
+               {% endfor %}
                 </div>
-                <!-- Grid column -->
-                {% endif %}
-                <!-- Grid column -->
-                <div class="col-lg-7 col-xl-8">
-
-                    <!-- Post title -->
-                    <a href="{{ url_for('posts.news_post', postID=post.id) }}" style="color: black;">
-                        <h5 class="font-weight-bold mb-3"><strong>{{ post.Title }}</strong></h5>
-                    </a>
-
-                    <!-- Excerpt -->
-                    {% if post.Content[:100] %}
-
-                    <p class="dark-grey-text">{{ post.Content[:100] + (post.Content[100:] and '...') }}</p>
-                    <!-- Post data -->
-                    {% endif %}
-
-                    <!-- Read more button -->
-
                 </div>
-                <!-- Grid column -->
-
-            </div>
-            <!-- Grid row -->
-
-            <hr class="my-5">
-                </div>
-            {% endfor %}
-            </div>
             {% else %}
-            <img src="{{ url_for('static', filename='socialize.png') }}"" alt="">
-                <h3 class=" text-center">You don't have any friends/following.</h3>
+                <img src="{{ url_for('static', filename='socialize.png') }}" alt="">
+                <h3 class=" text-center">There are no Questions to Answer.</h3>
             {% endif %}
-
         </section>
-        <!-- Section: Blog v.3 -->
-
-        <div>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                <a href="{{ url_for('main.create_family_post') }}" class="btn btn-primary waves-effect">
-                    <div style="font-size: 20px">
+        <div> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                <a href="{{ url_for('main.create_question_post') }}" class="btn btn-primary waves-effect">
+                <div style="font-size: 20px">
                     Create a Post
                     </div>
                 </a>
-            </div>
+        </div>
     </div>
-</div>
 
 {% endblock %}

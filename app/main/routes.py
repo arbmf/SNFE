@@ -58,6 +58,46 @@ def home(order='time'):
     # posts = Post.query.order_by(Post.DatePosted.desc())
     return render_template('register.html', form=form)
 
+@main.route("/question/<string:order>")
+@login_required
+def question(order='time'):
+    users=[]
+    if current_user.is_authenticated:
+        posts = Question.query.order_by(Question.DatePosted.desc()).all()
+        tempUsers = User.query.filter(
+            User.id != current_user.id).order_by(func.random()).all()
+        for tempUser in tempUsers:
+            if not current_user.is_following(tempUser) and len(users) <= 2:
+                users.append(tempUser)
+        likes = {}
+        for i in range(len(posts)):
+            likes[posts[i]] = len(posts[i].LikedUsersQ.all())
+        if order=='popularity':
+            sorted_likes = sorted(likes.items(),key=lambda item : item[1],reverse=True)
+            likes = {k: v for k, v in sorted_likes}
+            return render_template('question/question.html',posts=likes, users=users, active='question',subactive='popularity')
+        else:
+            return render_template('question/question.html',posts=likes, users=users, active='question',subactive='time')
+
+@main.route("/create_question_post", methods=['GET', 'POST'])
+@login_required
+def create_question_post():
+    form = QuestionForm()
+    if form.validate_on_submit():
+        postImage = ""
+        if form.postImage.data:
+            postImage = save_post_image(form.postImage.data)
+        post = Question(
+            Title=form.title.data,
+            Content=form.content.data,
+            ImageFile=postImage,
+            Authorq=current_user
+        )
+        db.session.add(post)
+        db.session.commit()
+        flash("Succesfully Posted!", category='success')
+        return redirect(url_for('main.question',order='time'))
+    return render_template('question/create-question-post.html', form=form, title="Make a story")
 
 @main.route("/family")
 @login_required
@@ -225,36 +265,6 @@ def game():
             if not current_user.is_following(tempUser) and len(users) <= 2:
                 users.append(tempUser)
         return render_template('games/games.html', posts=posts, users=users, active='games')
-
-@main.route("/question")
-@login_required
-def question():
-    if current_user.is_authenticated:
-        question_posts = Question.query.order_by(Question.DatePosted.desc()).all()
-        for post in question_posts:
-            print(post.Title, post.Content)
-        return render_template('question/question.html', posts=question_posts, active='question')
-
-@main.route("/create_question_post", methods=['GET', 'POST'])
-@login_required
-def create_question_post():
-    form = QuestionForm()
-    if form.validate_on_submit():
-        postImage = ""
-        if form.postImage.data:
-            postImage = save_post_image(form.postImage.data)
-        post = Question(
-            Title=form.title.data,
-            Content=form.content.data,
-            ImageFile=postImage,
-            Author=current_user
-        )
-        db.session.add(post)
-        db.session.commit()
-        flash("Succesfully Posted!", category='success')
-        return redirect(url_for('main.news'))
-
-    return render_template('news/create-news-post.html', form=form, title="Make a story")
 
 @main.route('/schedule')
 def calendar():

@@ -43,24 +43,20 @@ def post(postID):
     likedUsers = len(post.LikedUsers.all())
     return render_template('posts/post.html', title="Posts", post=post, likedUsers=likedUsers)
 
+@posts.route("/questions/<int:questionID>", methods=['GET', 'POST'])
+def question(questionID):
+    post = Question.query.get_or_404(questionID)
+    socketio.on_event("likeq", likeq)
+    user = db.session.query(User).get(current_user.id)
+    print(user.has_liked_q(post))
+    likedUsersQ = len(post.LikedUsersQ.all())
+    return render_template('question/question_post.html', title="Questions", post=post,likedUsersQ=likedUsersQ)
+
 @posts.route("/family_posts/<int:postID>", methods=['GET', 'POST'])
 def family_post(postID):
     post = Family.query.get_or_404(postID)
     return render_template('family/family_post.html', title="Posts", post=post)
 
-@posts.route("/questions/<int:questionID>", methods=['GET', 'POST'])
-def question(questionID):
-    post = Question.query.get_or_404(questionID)
-    # socketio.on_event("like", like)
-    user = db.session.query(User).get(current_user.id)
-    # print(user.has_liked_q(post))
-    # likedUsers = len(post.LikedUsers.all())
-    return render_template('question/question_post.html', title="Questions", post=post)
-
-@posts.route("/news_post/<int:postID>", methods=['GET', 'POST'])
-def news_post(postID):
-    post = News.query.get_or_404(postID)
-    return render_template('news/news_post.html', title="Posts", post=post)
 
 @posts.route("/job_post/<int:postID>", methods=['GET', 'POST'])
 def job_post(postID):
@@ -98,6 +94,19 @@ def like(postID):
     #                          }
     #               , room=room_id)
     print(user.has_liked(post))
+
+@socketio.on("likeq")
+def likeq(questionID):
+    print(questionID)
+    # chatroom = Chatroom.query.get_or_404(room_id)
+    post = Question.query.get_or_404(questionID)
+    user = db.session.query(User).get(current_user.id)
+    if(not user.has_liked_q(post)):
+        user.like(post)
+        db.session.commit()
+    likedUsersQ = len(post.LikedUsersQ.all())
+    socketio.emit("likedUsersQ", {"likedUsersQ": likedUsersQ})
+    print(user.has_liked_q(post))
 
 
 @posts.route("/posts/<int:postID>/update", methods=['GET', 'POST'])

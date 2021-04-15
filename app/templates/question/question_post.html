@@ -1,15 +1,15 @@
 {% extends "layout.html" %} {% block content%}
-<meta property="og:url" content="{{ url_for('posts.post', postID=post.id) }}" />
+<meta property="og:url" content="{{ url_for('posts.question', questionID=post.id) }}" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="{{ post.Title }}" />
 <meta property="og:description" content="{{ post.Content }}" />
 <meta
   property="og:image"
-  content="{{ url_for('static', filename='news_images/' +
+  content="{{ url_for('static', filename='question_images/' +
 post.ImageFile) }}"
 />
 <script>
-  var postID = "{{post.id}}";
+  var questionID = "{{post.id}}";
 </script>
 <main>
   <br />
@@ -20,7 +20,7 @@ post.ImageFile) }}"
     <div class="view view-cascade overlay">
       <img
         class="card-img-top"
-        src="{{ url_for('static', filename='news_images/' +
+        src="{{ url_for('static', filename='question_images/' +
             post.ImageFile) }}"
         alt="Card image cap"
       />
@@ -34,10 +34,55 @@ post.ImageFile) }}"
     <div class="card-body card-body-cascade text-center">
       <!-- Title -->
       <h4 class="card-title"><strong>{{ post.Title }}</strong></h4>
-
+      <!-- Subtitle -->
+      <h6 class="font-weight-bold indigo-text py-2">
+        <a href="{{ url_for('main.user_profile', email=post.Authorq.Email) }}">
+          {{ post.Authorq.FirstName }} {{ post.Authorq.LastName }}
+        </a>
+        - {{ post.DatePosted.strftime('%a %d, %Y') }}
+      </h6>
       <!-- Text -->
       <p class="card-text">{{ post.Content }}</p>
+      <div style="width: 30%; margin: auto">
+        <button id="like" class="btn-primary" style="width: 75px; float: left">
+          <i class="fa fa-thumbs-up"></i>
+          Like
+        </button>
+        <p
+          id="likeText"
+          style="
+            padding-left: 8px;
+            padding-top: 5px;
+            font-weight: bold;
+            float: left;
+          "
+        >
+          {{likedUsersQ}} people like this
+        </p>
+        <!-- Load Facebook SDK for JavaScript -->
+        <div id="fb-root"></div>
+        <script
+          async
+          defer
+          crossorigin="anonymous"
+          src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v5.0"
+        ></script>
 
+        <!-- Your share button code -->
+        <div
+          style="float: right"
+          class="fb-share-button"
+          data-href="{{ url_for('posts.question', questionID=post.id) }}"
+          data-layout="button_count"
+          data-size="small"
+        >
+          <a
+            target="_blank"
+            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+            class="fb-xfbml-parse-ignore"
+            >Share</a
+          >
+        </div>
       </div>
     </div>
   </div>

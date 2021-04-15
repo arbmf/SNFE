@@ -12,3 +12,18 @@ $(document).ready(function () {
     $("#likeText").text(`${msg.likedUsers} people liked this`);
   });
 });
+
+$(document).ready(function () {
+  var socket;
+  socket = io();
+
+  $("#like").click(function () {
+    socket.emit("likeq", questionID);
+    return false;
+  });
+
+  socket.on("likedUsersQ", function (msg) {
+    console.log(msg);
+    $("#likeText").text(`${msg.likedUsersQ} people liked this`);
+  });
+});

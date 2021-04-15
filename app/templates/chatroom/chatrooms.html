@@ -31,7 +31,7 @@
                 </div>
             </a>
 
-            <a href="{{ url_for('main.question') }}" class="btn  {% if active == 'question' %} btn-primary  activenav {% endif %}">
+            <a href="{{ url_for('main.question',order='time') }}" class="btn  {% if active == 'question' %} btn-primary  activenav {% endif %}">
                 <div style="color: black;font-size: 20px;{% if active == 'question' %} color:white; {% endif %}" >
                     Question/Answers
                 </div>

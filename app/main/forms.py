@@ -73,3 +73,4 @@ class QuestionForm(FlaskForm):
         FileAllowed(['jpg', 'png', 'jpeg'])])
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
+    submit = SubmitField('Post')
