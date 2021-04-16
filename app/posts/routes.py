@@ -102,7 +102,7 @@ def likeq(questionID):
     post = Question.query.get_or_404(questionID)
     user = db.session.query(User).get(current_user.id)
     if(not user.has_liked_q(post)):
-        user.like(post)
+        user.like_q(post)
         db.session.commit()
     likedUsersQ = len(post.LikedUsersQ.all())
     socketio.emit("likedUsersQ", {"likedUsersQ": likedUsersQ})

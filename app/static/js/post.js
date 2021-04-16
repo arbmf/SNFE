@@ -11,19 +11,16 @@ $(document).ready(function () {
     console.log(msg);
     $("#likeText").text(`${msg.likedUsers} people liked this`);
   });
-});
 
-$(document).ready(function () {
-  var socket;
-  socket = io();
-
-  $("#like").click(function () {
+    $("#likeq").click(function () {
     socket.emit("likeq", questionID);
     return false;
   });
 
   socket.on("likedUsersQ", function (msg) {
     console.log(msg);
-    $("#likeText").text(`${msg.likedUsersQ} people liked this`);
+    $("#likeTextQ").text(`${msg.likedUsersQ} people liked this`);
   });
 });
+
+
