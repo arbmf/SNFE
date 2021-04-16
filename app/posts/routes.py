@@ -2,8 +2,8 @@ from flask import (render_template, url_for, flash,
                    redirect, request, Blueprint)
 from flask_login import current_user, login_required
 from app import db
-from app.models import Post, User,Family,Job,Living,Volunteer,Question
-from app.posts.forms import NewPost
+from app.models import Post, User,Family,Job,Living,Volunteer,Question,Answer
+from app.posts.forms import NewPost,AnswerForm
 from app.posts.utils import save_post_image
 from datetime import timedelta
 from app import socketio
@@ -45,12 +45,25 @@ def post(postID):
 
 @posts.route("/questions/<int:questionID>", methods=['GET', 'POST'])
 def question(questionID):
+    form = AnswerForm()
+    if form.validate_on_submit():
+        post = Answer(
+            Content=form.content.data,
+            QuestionID=questionID,
+            Authora=current_user
+        )
+        db.session.add(post)
+        db.session.commit()
+        flash("Succesfully Answered!", category='success')
+        return redirect(url_for('posts.question',questionID=questionID))
     post = Question.query.get_or_404(questionID)
+    answers = Answer.query.filter(Answer.QuestionID==questionID)
+    print(answers)
     socketio.on_event("likeq", likeq)
     user = db.session.query(User).get(current_user.id)
     print(user.has_liked_q(post))
     likedUsersQ = len(post.LikedUsersQ.all())
-    return render_template('question/question_post.html', title="Questions", post=post,likedUsersQ=likedUsersQ)
+    return render_template('question/question_post.html', title="Questions", post=post,likedUsersQ=likedUsersQ,answers=answers,form=form)
 
 @posts.route("/family_posts/<int:postID>", methods=['GET', 'POST'])
 def family_post(postID):
@@ -98,7 +111,6 @@ def like(postID):
 @socketio.on("likeq")
 def likeq(questionID):
     print(questionID)
-    # chatroom = Chatroom.query.get_or_404(room_id)
     post = Question.query.get_or_404(questionID)
     user = db.session.query(User).get(current_user.id)
     if(not user.has_liked_q(post)):

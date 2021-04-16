@@ -55,6 +55,7 @@ class User(db.Model, UserMixin):
         db.String(20), nullable=False, default='default.png')
     Posts = db.relationship('Post', backref='Author', lazy=True)
     Questions = db.relationship('Question',backref='Authorq',lazy=True)
+    Answers = db.relationship('Answer', backref='Authora', lazy=True)
     ChatroomId = db.Column(db.Integer, db.ForeignKey('chatroom.id'))
     Followed = db.relationship('User', secondary=Followers, primaryjoin=(Followers.c.follower_id == id),
                                secondaryjoin=(Followers.c.followed_id == id),
@@ -125,9 +126,17 @@ class Question(db.Model):
     Content = db.Column(db.Text, nullable=False)
     ImageFile = db.Column(db.String(20))
     UserID = db.Column(db.Integer,db.ForeignKey('user.id'), nullable=False)
-
+    Answers = db.relationship('Answer',backref='que',lazy=True)
     def __repr__(self):
         return f"Question('{self.Title}', '{self.DatePosted}')"
+
+class Answer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    DatePosted = db.Column(db.DateTime, nullable=False,
+                           default=datetime.utcnow)
+    Content = db.Column(db.Text, nullable=False)
+    QuestionID = db.Column(db.Integer,db.ForeignKey('question.id'),nullable=False)
+    UserID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 class Group(db.Model, RestrictionsMixin):
     id = db.Column(db.Integer, primary_key=True)

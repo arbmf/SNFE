@@ -84,8 +84,42 @@ post.ImageFile) }}"
           >
         </div>
       </div>
+    <div class="card-body"></div>
+    {% for post in answers %}
+            <div style="text-align: left;">
+            <a href="{{ url_for('main.user_profile', email=post.Authora.Email) }}">
+                                    <div class="font-weight-bold mb-3" style="font-size: 15px;"><img style="max-width: 30px; margin-right: 10px;"
+                                    src="{{ url_for('static', filename='profile_pictures/' + post.Authora.ProfilePicture) }}"
+                                    class="img-fluid z-depth-1 rounded-circle"
+                                    alt="Responsive image">{{ post.Authora.FirstName }}
+                                    {{ post.Authora.LastName }} </div>
+                                </a>
+            {{ post.Content }}
+            </div>
+        </br></br>
+
+    {% endfor %}
+
+      <form class="container card-body" method="POST">
+
+          {{ form.hidden_tag() }}
+            <div class="md-form">
+                {{ form.content(class='form-control') }}
+                {{ form.content.label }}
+                {% for content in form.content.errors %}
+                    <span style="color: #f44336">{{ content }}</span>
+                {% endfor %}
+            </div>
+            <div class="text-center mb-3">
+                <button type="submit" class="btn blue-gradient btn-block btn-rounded z-depth-1a">
+                    <div style="font-size: 20px">Add Answer
+                    </div>
+                </button>
+            </div>
+      </form>
     </div>
   </div>
+
   <!-- Card -->
   <br />
   <br />
