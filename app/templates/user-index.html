@@ -1,121 +1,365 @@
 {% extends "layout.html" %}
 {% block content%}
-    <div style="background-color: #FAFAFA" >
-        <h1>
-            <a href="{{ url_for('main.home',order='time') }}" class="btn  {% if active == 'home' %} btn-primary activenav{% endif %}">
-                <div style="color: black;font-size: 20px; {% if active == 'home' %} color:white; {% endif %}" >
-                    Posts
-                </div>
-            </a>
+<!------ Include the above in your HEAD tag ---------->
+<style>
+    .chip.chip-lg {
+        height: 52px;
+        line-height: 52px;
+        border-radius: 26px;
+        font-size: inherit;
+    }
 
-            <a href="{{ url_for('main.family') }}" class="btn {% if active == 'family' %} btn-primary activenav {% endif %}">
-                <div style="color: black;font-size: 20px;{% if active == 'family' %} color:white; {% endif %}">
-                    Family
-                </div>
-            </a>
+    .chip.chip-lg img {
+        height: 52px;
+        width: 52px;
+    }
 
-            <a href="{{ url_for('main.chatroom') }}" class="btn {% if active == 'chatroom' %} btn-primary  activenav {% endif %}">
-                <div style="color: black;font-size: 20px;{% if active == 'chatroom' %} color:white; {% endif %}" >
-                    Chat Rooms
-                </div>
-            </a>
+    a {
+        color: #fff;
+        text-decoration: none;
+    }
 
-            <a href="{{ url_for('main.group') }}" class="btn {% if active == 'group' %}btn-primary  activenav {% endif %}">
-                <div style="color: black;font-size: 20px;{% if active == 'group' %} color:white; {% endif %}" >
-                    Groups
-                </div>
-            </a>
+    a:hover {
+        color: #fff;
+        text-decoration: none;
+    }
 
-            <a href="{{ url_for('main.dating') }}" class="btn  {% if active == 'dating' %}btn-primary  activenav {% endif %}">
-                <div style="color: black;font-size: 20px;{% if active == 'dating' %} color:white; {% endif %}" >
-                    Dating
-                </div>
-            </a>
+    /*--choice modal1--*/
 
-            <a href="{{ url_for('main.question',order='time') }}" class="btn  {% if active == 'question' %} btn-primary  activenav {% endif %}">
-                <div style="color: black;font-size: 20px;{% if active == 'question' %} color:white; {% endif %}" >
-                    Question/Answers
-                </div>
-            </a>
-        </h1>
-    </div>
-<div style = "position:relative;color: green; height: 40px;">
-    <a class="prev" style="left:30%;" onclick="plusSlides(-1)">
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&#10094; Previous Post &emsp;&emsp;&emsp;&emsp;&emsp;
-    </a>
-    <a href="{{ url_for('main.home',order='time') }}" class="btn  {% if subactive == 'time' %} btn-green activenav{% endif %}">
-                <div style="color: black;font-size: 17px; {% if subactive == 'time' %} color:white; {% endif %}" >
-                    New
-                </div>
-            </a>
-    <a href="{{ url_for('main.home',order='popularity') }}" class="btn  {% if subactive == 'popularity' %} btn-green activenav{% endif %}">
-                <div style="color: black;font-size: 17px; {% if subactive == 'popularity' %} color:white; {% endif %}" >
-                    Popular
-                </div>
-            </a>
-    <a class="next" style="right:30%;" onclick="plusSlides(1)">
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Next Post &#10095;
-    </a>
-</div>
-<div class="container" style="padding-left:250px;padding-top: 30px;">
+    .openbtn {
+        margin-top: 80px;
+    }
 
-    <div class="row" style=" margin-top: -52px;">
-        <section class="my-5 col-xl-9 card" style="background-color: white; padding-top: 10px;">
-        <hr>
-            {% if posts %}
+    .modal-header {
+        padding: 15px;
+        border-bottom: none;
+    }
 
-                <div class="slideshow-container">
+    .modal-title {
+        font-weight: bold;
+    }
 
-                    {% for post,like in posts.items() %}
-                        <div class="mySlides">
-                        <a href="{{ url_for('main.user_profile', email=post.Author.Email) }}">
-                                    <div class="font-weight-bold mb-3" style="font-size: 15px;"><img style="max-width: 30px; margin-right: 10px;"
-                                    src="{{ url_for('static', filename='profile_pictures/' + post.Author.ProfilePicture) }}"
-                                    class="img-fluid z-depth-1 rounded-circle"
-                                    alt="Responsive image">{{ post.Author.FirstName }}
-                                    {{ post.Author.LastName }} |
-                                {{ post.DatePosted.strftime('%m/%d/%Y') }}</div>
-                                </a>
-                        <div class="row">
-                            {% if post.ImageFile %}
-                                <div class="col-lg-5 col-xl-4">
-                                    <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
-                                        <img class="img-fluid" src="{{ url_for('static', filename='post_images/' +
-                                        post.ImageFile) }}" alt="Post Image">
-                                        <a href="{{ url_for('posts.post', postID=post.id) }}">
-                                            <div class="mask rgba-white-slight"></div>
-                                        </a>
+    .modal-body.choice-modal {
+        position: relative;
+        padding: 0px;
+
+    }
+
+    .row.inner-scroll {
+        height: 445px;
+        overflow: auto;
+    }
+
+    .mycard-footer {
+        height: 25px;
+        background: #333333;
+        font-size: 15px;
+        text-indent: 10px;
+        /* border-radius: 0 0px 4px 4px;*/
+    }
+
+    .gallery-card {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, .125);
+        border-radius: .25rem;
+        height: 132px;
+        margin-bottom: 14px;
+    }
+
+    .gallery-card-body {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        /*padding: 1.25rem;*/
+    }
+
+    .gallery-card img {
+        height: 100px;
+        width: 100%;
+    }
+
+    label {
+        margin-bottom: 0 !important;
+    }
+
+    /*--checkbox--*/
+
+    .block-check {
+        display: block;
+        position: relative;
+
+
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    /* Hide the browser's default checkbox */
+    .block-check input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+        cursor: pointer;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .block-check:hover input~.checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .block-check input:checked~.checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .block-check input:checked~.checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .block-check .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+
+    /*--checkbox css end--*/
+</style>
+
+<!-- Button to Open the Modal -->
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">What are your Interest? </h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+
+            </div>
+            <div class="modal-body choice-modal">
+                <div class="container-fluid">
+                    <form action="/save_interests" method="POST" enctype="multipart/form-data">
+
+                        <div class="row inner-scroll">
+
+                            {% for interest in interests %}
+                            <div class="col-md-2">
+                                <div class="gallery-card">
+                                    <div class="gallery-card-body">
+                                        <label class="block-check">
+                                            <img src={{interest.ImageSource}} class="img-responsive" />
+                                            <input name="check" value="{{interest.Title}}" type="checkbox"
+                                                {% if interest in user_interests %} checked {% endif %}>
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <div class="mycard-footer">
+                                            <a href="#" class="card-link">{{interest.Title}}</a>
+                                        </div>
                                     </div>
-                                 </div>
-                            {% endif %}
-                            <div class="col-lg-7 col-xl-8">
-                                <a href="{{ url_for('posts.post', postID=post.id) }}" style="color: black;">
-                                    <h5 class="font-weight-bold mb-3">{{ post.Title }} <p style="font-size: 15px;color: indigo;">{{ like }} likes</p></h5>
-                                </a>
-                                {% if post.Content[:100] %}
-                                    <p class="dark-grey-text">{{ post.Content[:100] + (post.Content[100:] and '...') }}</p>
-                                {% endif %}
-
-
+                                </div>
                             </div>
+                            {% endfor %}
                         </div>
-                        <hr class="my-5">
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Continue</button>
                         </div>
-               {% endfor %}
+                    </form>
                 </div>
-                </div>
-            {% else %}
-                <img src="{{ url_for('static', filename='socialize.png') }}" alt="">
-                <h3 class=" text-center">You don't have any friends/following.</h3>
-            {% endif %}
-        </section>
-        <div> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                <a href="{{ url_for('posts.create_post') }}" class="btn btn-primary waves-effect">
-                <div style="font-size: 20px">
-                    Create a Post
-                    </div>
-                </a>
+
+            </div>
         </div>
     </div>
+</div>
+
+<div style="background-color: #FAFAFA">
+    <h1>
+        <a href="{{ url_for('main.home',order='time') }}"
+            class="btn btn-link {% if active == 'home' %} btn-primary activenav{% endif %}">
+            <div style="color: black;font-size: 20px; {% if active == 'home' %} color:white; {% endif %}">
+                Posts
+            </div>
+        </a>
+
+        <a href="{{ url_for('main.family') }}"
+            class="btn btn-link {% if active == 'family' %} btn-primary activenav {% endif %}">
+            <div style="color: black;font-size: 20px;{% if active == 'family' %} color:white; {% endif %}">
+                Family
+            </div>
+        </a>
+
+        <a href="{{ url_for('main.chatroom') }}"
+            class="btn btn-link {% if active == 'chatroom' %} btn-primary  activenav {% endif %}">
+            <div style="color: black;font-size: 20px;{% if active == 'chatroom' %} color:white; {% endif %}">
+                Chat Rooms
+            </div>
+        </a>
+
+        <a href="{{ url_for('main.group') }}" class="btn btn-link {% if active == 'group' %}btn-primary  activenav {% endif %}">
+            <div style="color: black;font-size: 20px;{% if active == 'group' %} color:white; {% endif %}">
+                Groups
+            </div>
+        </a>
+
+        <a href="{{ url_for('main.dating') }}"
+            class="btn  btn-link {% if active == 'dating' %}btn-primary  activenav {% endif %}">
+            <div style="color: black;font-size: 20px;{% if active == 'dating' %} color:white; {% endif %}">
+                Dating
+            </div>
+        </a>
+
+        <a href="{{ url_for('main.question',order='time') }}"
+            class="btn  btn-link {% if active == 'question' %} btn-primary  activenav {% endif %}">
+            <div style="color: black;font-size: 20px;{% if active == 'question' %} color:white; {% endif %}">
+                Question/Answers
+            </div>
+        </a>
+    </h1>
+</div>
+<div style="display:flex">
+    <h4 style="padding:10px">Based on your interests:</h4>
+    {% for interest in user_interests %}
+    <div style="float: left;" class="chip chip-lg black-text">
+        <img src="{{interest.ImageSource}}" alt="Interest"> {{interest.Title}}
+    </div>
+    {% endfor %}
+    <div style="float: left;" class="text-center">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            <div style="font-size: 18px;  color:white;">
+                 Change Interests
+            </div>
+        </button>
+    </div>
+</div>
+<div style="position:fixed; margin-top:75px; left:220px;color: green; height: 40px;">
+    <a class="prev" style="left:30%;" onclick="plusSlides(-1)">
+       &#10094;
+        Previous Post &emsp;&emsp;&emsp;&emsp;&emsp;
+    </a>
+</div>
+<div style="position:fixed; margin-top:75px; right: 220px;color: green; height: 40px;">
+
+    <a class="next" style="right:30%;" onclick="plusSlides(1)">
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Next Post &#10095;
+    </a>
+</div>
+<div class="container" >
+    <div style="float: left;margin-top: 200px; display:grid ">
+        <a href="{{ url_for('main.home',order='time') }}"
+            class="btn  {% if subactive == 'time' %} btn-green activenav{% endif %}">
+            <div style="color: black;font-size: 17px; {% if subactive == 'time' %} color:white; {% endif %}">
+                New
+            </div>
+        </a>
+        <a href="{{ url_for('main.home',order='popularity') }}"
+            class="btn  {% if subactive == 'popularity' %} btn-green activenav{% endif %}">
+            <div style="color: black;font-size: 17px; {% if subactive == 'popularity' %} color:white; {% endif %}">
+                Popular
+            </div>
+        </a>
+</div>
+    <div class="row" style="padding-left:100px;padding-top: 30px; margin-top: -52px;">
+        <section class="my-5 col-xl-9 card" style="background-color: white; padding-top: 10px;">
+            <hr>
+            {% if posts %}
+
+            <div class="slideshow-container">
+
+                {% for post,like in posts.items() %}
+                <div class="mySlides">
+                    <a href="{{ url_for('main.user_profile', email=post.Author.Email) }}">
+                        <div class="font-weight-bold mb-3" style="font-size: 15px;"><img
+                                style="max-width: 30px; margin-right: 10px;"
+                                src="{{ url_for('static', filename='profile_pictures/' + post.Author.ProfilePicture) }}"
+                                class="img-fluid z-depth-1 rounded-circle"
+                                alt="Responsive image">{{ post.Author.FirstName }}
+                            {{ post.Author.LastName }} |
+                            {{ post.DatePosted.strftime('%m/%d/%Y') }}</div>
+                    </a>
+                    <div class="row">
+                        {% if post.ImageFile %}
+                        <div class="col-lg-5 col-xl-4">
+                            <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
+                                <img class="img-fluid" src="{{ url_for('static', filename='post_images/' +
+                                        post.ImageFile) }}" alt="Post Image">
+                                <a href="{{ url_for('posts.post', postID=post.id) }}">
+                                    <div class="mask rgba-white-slight"></div>
+                                </a>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="col-lg-7 col-xl-8">
+                            <a href="{{ url_for('posts.post', postID=post.id) }}" style="color: black;">
+                                <h5 class="font-weight-bold mb-3">{{ post.Title }} <p
+                                        style="font-size: 15px;color: indigo;">{{ like }} likes</p>
+                                </h5>
+                            </a>
+                            {% if post.Content[:100] %}
+                            <p class="dark-grey-text">{{ post.Content[:100] + (post.Content[100:] and '...') }}</p>
+                            {% endif %}
+
+
+                        </div>
+                    </div>
+                    <hr class="my-5">
+                </div>
+                {% endfor %}
+            </div>
+    </div>
+    {% else %}
+    <img src="{{ url_for('static', filename='socialize.png') }}" alt="">
+    <h3 class=" text-center">You don't have any friends/following.</h3>
+    {% endif %}
+    </section>
+    <div> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <a href="{{ url_for('posts.create_post') }}" class="btn btn-primary waves-effect">
+            <div style="font-size: 20px">
+                Create a Post
+            </div>
+        </a>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/user-index.js') }}"></script>
 
 {% endblock %}

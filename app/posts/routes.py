@@ -1,7 +1,7 @@
 from flask import (render_template, url_for, flash,
                    redirect, request, Blueprint)
 from flask_login import current_user, login_required
-from app import db
+from app import db, Interest
 from app.models import Post, User,Family,Job,Living,Volunteer,Question,Answer
 from app.posts.forms import NewPost,AnswerForm
 from app.posts.utils import save_post_image
@@ -20,18 +20,24 @@ def create_post():
         postImage = ""
         if form.postImage.data:
             postImage = save_post_image(form.postImage.data)
+        received_interests = request.form.getlist('check')
+        interests_db = []
+        for received_interest in received_interests:
+            interest = db.session.query(Interest).filter_by(Title=received_interest).first()
+            interests_db.append(interest)
         post = Post(
             Title=form.title.data,
             Content=form.content.data,
             ImageFile=postImage,
-            Author=current_user
+            Author=current_user,
+            PostInterests=interests_db
         )
         db.session.add(post)
         db.session.commit()
         flash("Succesfully Posted!", category='success')
         return redirect(url_for('users.profile'))
-
-    return render_template('posts/create-post.html', form=form, title="Make a story")
+    interests = Interest.query.all()
+    return render_template('posts/create-post.html', form=form, interests=interests, title="Make a story")
 
 
 @posts.route("/posts/<int:postID>", methods=['GET', 'POST'])
@@ -41,7 +47,8 @@ def post(postID):
     user = db.session.query(User).get(current_user.id)
     print(user.has_liked(post))
     likedUsers = len(post.LikedUsers.all())
-    return render_template('posts/post.html', title="Posts", post=post, likedUsers=likedUsers)
+    interests = post.PostInterests.all()
+    return render_template('posts/post.html', title="Posts", post=post, interests=interests, likedUsers=likedUsers)
 
 @posts.route("/questions/<int:questionID>", methods=['GET', 'POST'])
 def question(questionID):

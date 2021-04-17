@@ -84,8 +84,17 @@ post.ImageFile) }}"
           >
         </div>
       </div>
+      <div style="width: max-content; margin: auto">
+        {% for interest in interests %}
+        <div style="float: left" class="chip chip-lg black-text">
+          <img src="{{interest.ImageSource}}" alt="Interest" />
+          {{interest.Title}}
+        </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
+
   <!-- Card -->
   <br />
   <br />

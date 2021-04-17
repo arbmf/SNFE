@@ -6,20 +6,17 @@ from app import db, login_manager
 from flask_login import UserMixin
 from flask_authorize import RestrictionsMixin, AllowancesMixin
 
-
 UserGroup = db.Table(
     'user_group', db.Model.metadata,
     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
     db.Column('group_id', db.Integer, db.ForeignKey('group.id'))
 )
 
-
 UserRole = db.Table(
     'user_role', db.Model.metadata,
     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
     db.Column('role_id', db.Integer, db.ForeignKey('role.id'))
 )
-
 
 
 # This is where the session or current_user gets the data when login_user is triggered
@@ -39,11 +36,19 @@ UserLikedPosts = db.Table('user_liked_posts',
                           db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
                           db.Column('post_id', db.Integer, db.ForeignKey('post.id'))
                           )
-
+UserInterests = db.Table('user_interests',
+                         db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+                         db.Column('interest_id', db.Integer, db.ForeignKey('interest.id'))
+                         )
+PostInterests = db.Table('post_interests',
+                         db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
+                         db.Column('interest_id', db.Integer, db.ForeignKey('interest.id'))
+                         )
 UserLikedQuestions = db.Table('user_liked_questions',
-                          db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-                          db.Column('question_id', db.Integer, db.ForeignKey('question.id'))
-                          )
+                              db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+                              db.Column('question_id', db.Integer, db.ForeignKey('question.id'))
+                              )
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -54,15 +59,19 @@ class User(db.Model, UserMixin):
     ProfilePicture = db.Column(
         db.String(20), nullable=False, default='default.png')
     Posts = db.relationship('Post', backref='Author', lazy=True)
-    Questions = db.relationship('Question',backref='Authorq',lazy=True)
+    Questions = db.relationship('Question', backref='Authorq', lazy=True)
     Answers = db.relationship('Answer', backref='Authora', lazy=True)
     ChatroomId = db.Column(db.Integer, db.ForeignKey('chatroom.id'))
     Followed = db.relationship('User', secondary=Followers, primaryjoin=(Followers.c.follower_id == id),
                                secondaryjoin=(Followers.c.followed_id == id),
                                backref=db.backref('Followers', lazy='dynamic'), lazy='dynamic')
-    UserLikedPosts = db.relationship('Post',primaryjoin=(UserLikedPosts.c.user_id == id), secondary=UserLikedPosts,backref=db.backref('LikedUsers', lazy='dynamic'), lazy='dynamic')
-    UserLikedQuestions = db.relationship('Question', primaryjoin=(UserLikedQuestions.c.user_id == id), secondary=UserLikedQuestions,
-                                     backref=db.backref('LikedUsersQ', lazy='dynamic'), lazy='dynamic')
+    UserLikedPosts = db.relationship('Post', primaryjoin=(UserLikedPosts.c.user_id == id), secondary=UserLikedPosts,
+                                     backref=db.backref('LikedUsers', lazy='dynamic'), lazy='dynamic')
+    UserInterests = db.relationship('Interest', primaryjoin=(UserInterests.c.user_id == id), secondary=UserInterests,
+                                    backref=db.backref('UserInterests', lazy='dynamic'), lazy='dynamic')
+    UserLikedQuestions = db.relationship('Question', primaryjoin=(UserLikedQuestions.c.user_id == id),
+                                         secondary=UserLikedQuestions,
+                                         backref=db.backref('LikedUsersQ', lazy='dynamic'), lazy='dynamic')
     roles = db.relationship('Role', secondary=UserRole)
     groups = db.relationship('Group', secondary=UserGroup)
 
@@ -118,6 +127,7 @@ class User(db.Model, UserMixin):
         own = Post.query.filter_by(UserID=self.id)
         return Followed.union(own).order_by(Post.DatePosted.desc())
 
+
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     Title = db.Column(db.String(100), nullable=False)
@@ -125,18 +135,21 @@ class Question(db.Model):
                            default=datetime.utcnow)
     Content = db.Column(db.Text, nullable=False)
     ImageFile = db.Column(db.String(20))
-    UserID = db.Column(db.Integer,db.ForeignKey('user.id'), nullable=False)
-    Answers = db.relationship('Answer',backref='que',lazy=True)
+    UserID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    Answers = db.relationship('Answer', backref='que', lazy=True)
+
     def __repr__(self):
         return f"Question('{self.Title}', '{self.DatePosted}')"
+
 
 class Answer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     DatePosted = db.Column(db.DateTime, nullable=False,
                            default=datetime.utcnow)
     Content = db.Column(db.Text, nullable=False)
-    QuestionID = db.Column(db.Integer,db.ForeignKey('question.id'),nullable=False)
+    QuestionID = db.Column(db.Integer, db.ForeignKey('question.id'), nullable=False)
     UserID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
 
 class Group(db.Model, RestrictionsMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -156,20 +169,11 @@ class Post(db.Model):
                            default=datetime.utcnow)
     Content = db.Column(db.Text, nullable=False)
     UserID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    PostInterests = db.relationship('Interest', primaryjoin=(PostInterests.c.post_id == id), secondary=PostInterests,
+                                    backref=db.backref('PostInterests', lazy='dynamic'), lazy='dynamic')
 
     def __repr__(self):
         return f"Post('{self.Title}', '{self.DatePosted}')"
-
-class Interest(db.Model):
-    id = db.Column(db.Integer,primary_key=True)
-    UserID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    Chess = db.Column(db.Boolean)
-    Sudoku = db.Column(db.Boolean)
-    Crosswords = db.Column(db.Boolean)
-    Job = db.Column(db.Boolean)
-    Volunteer = db.Column(db.Boolean)
-    Dating = db.Column(db.Boolean)
-
 
 
 class Chat(db.Model):
@@ -191,6 +195,7 @@ class Chatroom(db.Model):
     Chats = db.relationship('Chat', backref="Chatroom")
     Members = db.relationship('User', backref="MemberChatrooms")
 
+
 class Living(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     Title = db.Column(db.String(100), nullable=False)
@@ -198,6 +203,7 @@ class Living(db.Model):
                            default=datetime.utcnow)
     Content = db.Column(db.Text, nullable=False)
     ImageFile = db.Column(db.String(20))
+
 
 class Family(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -216,6 +222,7 @@ class Job(db.Model):
     Content = db.Column(db.Text, nullable=False)
     ImageFile = db.Column(db.String(20))
 
+
 class Volunteer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     Title = db.Column(db.String(100), nullable=False)
@@ -224,10 +231,17 @@ class Volunteer(db.Model):
     Content = db.Column(db.Text, nullable=False)
     ImageFile = db.Column(db.String(20))
 
+
 class Schedule(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     Title = db.Column(db.String(100), nullable=False)
     url = db.Column(db.String(100), nullable=False)
     class1 = db.Column(db.String(100), nullable=False)
-    start_date = db.Column(db.DateTime,nullable=False)
-    end_date = db.Column(db.DateTime,nullable=False)
+    start_date = db.Column(db.DateTime, nullable=False)
+    end_date = db.Column(db.DateTime, nullable=False)
+
+
+class Interest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    Title = db.Column(db.String(100), nullable=False)
+    ImageSource = db.Column(db.String(10000), nullable=False)

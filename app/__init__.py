@@ -9,7 +9,9 @@ from flask_mail import Mail
 from app.config import Config
 from flask_babelex import Babel
 from flask_socketio import SocketIO
+
 # Libraries Initialization
+
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
@@ -20,12 +22,13 @@ login_manager.login_view = 'users.login'
 socketio = SocketIO()
 mail = Mail()
 
+from app.models import Interest
 
 # App factory
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(Config)
-    babel = Babel(app)# Mapped the configurations
+    babel = Babel(app)  # Mapped the configurations
     # Initialize flask app inside these libraries instance.
     db.init_app(app)
     authorize.init_app(app)
@@ -55,3 +58,5 @@ def create_app(config_class=Config):
 # This is for initializing a db
 x = create_app()
 x.app_context().push()
+
+
