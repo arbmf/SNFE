@@ -36,7 +36,7 @@ def home(order='time'):
         hashed_password = bcrypt.generate_password_hash(
             form.password.data).decode('UTF-8')  # Encrypt the password stored in form.password.data
         user = User(FirstName=firstName, LastName=lastName,
-                    Email=email, Password=hashed_password, roles=[role])
+                    Email=email, Password=hashed_password, roles=[user_role])
         db.session.add(user)
         db.session.commit()
         # user = db.session.query(User).get(current_user.id)
