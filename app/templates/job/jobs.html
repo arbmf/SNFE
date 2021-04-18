@@ -1,103 +1,122 @@
-{% extends "layout.html" %}
-{% block content%}
-    <div style="background-color: #FAFAFA" >
-            <h1> <a
-              class="btn{% if active == 'job' %} btn-primary activenav {% endif %}"
-              href="{{ url_for('main.job') }}" style="color: black;"
-            > <div style="color: black; font-size: 20px;{% if active == 'job' %} color:white{% endif %}" >
-                    Job Opportunities
-            </div>
-                </a>
-             <a
-              class="btn {% if active == 'volunteer' %} btn-primary activenav {% endif %}"
-              href="{{ url_for('main.volunteer') }}" style="color: black;"
-            > <div style="color: black; font-size: 20px;{% if active == 'volunteer' %} color:white {% endif %}" >
-                    Volunteer Opportunities
-             </div>
-                </a>  </h1>
-            </div>
-    <div style = "position:relative;color: green; height: 40px;">
-    <a class="prev" style="left:30%;" onclick="plusSlides(-1)">
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&#10094; Previous Post
+{% extends "layout.html" %} {% block content%}
+<div style="background-color: #fafafa">
+  <h1>
+    <a
+      class="btn{% if active == 'job' %} btn-primary activenav {% endif %}"
+      href="{{ url_for('main.job') }}"
+      style="color: black"
+    >
+      <div
+        style="color: black; font-size: 20px;{% if active == 'job' %} color:white{% endif %}"
+      >
+        Job Opportunities
+      </div>
     </a>
-    <a class="next" style="right:30%;" onclick="plusSlides(1)">
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Next Post &#10095;
+    <a
+      class="btn {% if active == 'volunteer' %} btn-primary activenav {% endif %}"
+      href="{{ url_for('main.volunteer') }}"
+      style="color: black"
+    >
+      <div
+        style="color: black; font-size: 20px;{% if active == 'volunteer' %} color:white {% endif %}"
+      >
+        Volunteer Opportunities
+      </div>
     </a>
+  </h1>
 </div>
-<div class="container" style="padding-left:250px;">
+<div style="position: relative; color: green; height: 40px">
+  <a class="prev" style="left: 30%" onclick="plusSlides(-1)">
+    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&#10094;
+    Previous Post
+  </a>
+  <a class="next" style="right: 30%" onclick="plusSlides(1)">
+    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+    Next Post &#10095;
+  </a>
+</div>
+<div class="container" style="padding-left: 250px">
+  <div class="row" style="margin-top: -52px">
+    <!-- Section: Blog v.3 -->
 
-    <div class="row" style=" margin-top: -52px;">
-        <!-- Section: Blog v.3 -->
-
-        <section class="my-5 col-xl-9 card" style="background-color: white; padding-top: 10px;">
-            <hr>
-            {% if posts %}
-                <div class="slideshow-container">
-            {% for post in posts %}
-                <div class="mySlides">
-            <!-- Grid row -->
-            <div class="row">
-                {% if post.ImageFile %}
-                <!-- Grid column -->
-                <div class="col-lg-5 col-xl-4">
-
-                    <!-- Featured image -->
-                    <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
-                        <img class="img-fluid" src="{{ url_for('static', filename='job_images/' +
-                                post.ImageFile) }}" alt="Post Image">
-                        <a href="{{ url_for('posts.job_post', postID=post.id) }}">
-
-                            <div class="mask rgba-white-slight"></div>
-                        </a>
-                    </div>
-
-                </div>
-                <!-- Grid column -->
-                {% endif %}
-                <!-- Grid column -->
-                <div class="col-lg-7 col-xl-8">
-
-                    <!-- Post title -->
-                    <a href="{{ url_for('posts.job_post', postID=post.id) }}" style="color: black;">
-                        <h5 class="font-weight-bold mb-3"><strong>{{ post.Title }}</strong></h5>
-                    </a>
-
-                    <!-- Excerpt -->
-                    {% if post.Content[:100] %}
-
-                    <p class="dark-grey-text">{{ post.Content[:100] + (post.Content[100:] and '...') }}</p>
-                    <!-- Post data -->
-                    {% endif %}
-
-                    <!-- Read more button -->
-
-
-                </div>
-                <!-- Grid column -->
-
+    <section
+      class="my-5 col-xl-9 card"
+      style="background-color: white; padding-top: 10px"
+    >
+      <hr />
+      {% if posts %}
+      <div class="slideshow-container">
+        {% for post in posts %}
+        <div class="mySlides">
+          <!-- Grid row -->
+          <div class="row">
+            {% if post.ImageFile %}
+            <!-- Grid column -->
+            <div class="col-lg-5 col-xl-4">
+              <!-- Featured image -->
+              <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
+                <img
+                  class="img-fluid"
+                  src="{{ url_for('static', filename='job_images/' +
+                                post.ImageFile) }}"
+                  alt="Post Image"
+                />
+                <a href="{{ url_for('posts.job_post', postID=post.id) }}">
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
             </div>
-
-            <!-- Grid row -->
-            <hr class="my-5">
-                </div>
-            {% endfor %}
-            </div>
-            {% else %}
-            <img src="{{ url_for('static', filename='socialize.png') }}"" alt="">
+            <!-- Grid column -->
             {% endif %}
-        </section>
-        <!-- Section: Blog v.3 -->
+            <!-- Grid column -->
+            <div class="col-lg-7 col-xl-8">
+              <!-- Post title -->
+              <a
+                href="{{ url_for('posts.job_post', postID=post.id) }}"
+                style="color: black"
+              >
+                <h5 class="font-weight-bold mb-3">
+                  <strong>{{ post.Title }}</strong>
+                </h5>
+              </a>
 
-        <section class="my-5 col-xl-3" style="padding-top: 10px;">
+              <!-- Excerpt -->
+              {% if post.Content[:100] %}
 
-        </section>
-    </div>
-    <div> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; &emsp;&emsp;&emsp;
-        <a href="{{ url_for('main.create_job_post') }}" class="btn btn-primary waves-effect">
-            <div style = "font-size: 20px">Create a Post </div> (by admin only)
-        </a>
-    </div>
+              <p class="dark-grey-text">
+                {{ post.Content[:100] + (post.Content[100:] and '...') }}
+              </p>
+              <!-- Post data -->
+              {% endif %}
 
+              <!-- Read more button -->
+            </div>
+            <!-- Grid column -->
+          </div>
+
+          <!-- Grid row -->
+          <hr class="my-5" />
+        </div>
+        {% endfor %}
+      </div>
+      {% else %} <img src="{{ url_for('static', filename='socialize.png') }}""
+      alt=""> {% endif %}
+    </section>
+    <!-- Section: Blog v.3 -->
+
+    <section class="my-5 col-xl-3" style="padding-top: 10px"></section>
+  </div>
+  <div>
+    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+    &emsp;&emsp;&emsp;
+    <a
+      href="{{ url_for('main.create_job_post') }}"
+      class="btn btn-primary waves-effect"
+    >
+      <div style="font-size: 20px">Add a Job</div>
+      (by admin only)
+    </a>
+  </div>
 </div>
 
 {% endblock %}

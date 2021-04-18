@@ -1,38 +1,34 @@
-{% extends "layout.html" %}
-{% block content%}
+{% extends "layout.html" %} {% block content%}
 <main class="card">
-    <form class="container card-body" method="POST" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-        <div class="d-flex justify-content-center file-field">
-            <a class="btn-floating blue-gradient mt-0 float-left">
-                <i class="fas fa-image"></i>
-                {{ form.postImage }}
-            </a>
+  <form class="container card-body" method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="d-flex justify-content-center file-field">
+      <a class="btn-floating blue-gradient mt-0 float-left">
+        <i class="fas fa-image"></i>
+        {{ form.postImage }}
+      </a>
+    </div>
+    <div class="container">
+      <!-- Form -->
+      <div class="text-center" style="color: #757575" action="#!">
+        <!-- Name -->
+        <div class="md-form mt-3">
+          {{ form.title(class="form-control") }} {{ form.title.label }}
         </div>
-        <div class="container">
-            <!-- Form -->
-            <div class="text-center" style="color: #757575;" action="#!">
 
-                <!-- Name -->
-                <div class="md-form mt-3">
-                    {{ form.title(class="form-control") }}
-                    {{ form.title.label }}
-                </div>
-
-                <!--Message-->
-                <div class="md-form">
-                    {{ form.content(class="form-control md-textarea") }}
-                    {{ form.content.label }}
-                </div>
-
-                <!-- Send button -->
-                <button class="btn btn-primary" type="submit">
-                    <div style="font-size: 20px;color: white;">Post</div>
-                </button>
-
-            </div>
-            <!-- Form -->
+        <!--Message-->
+        <div class="md-form">
+          {{ form.content(class="form-control md-textarea") }} {{
+          form.content.label }}
         </div>
-    </form>
+
+        <!-- Send button -->
+        <button class="btn btn-primary" type="submit">
+          <div style="font-size: 20px; color: white">Ask the question</div>
+        </button>
+      </div>
+      <!-- Form -->
+    </div>
+  </form>
 </main>
 {% endblock %}
