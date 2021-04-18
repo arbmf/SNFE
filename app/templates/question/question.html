@@ -1,139 +1,203 @@
-{% extends "layout.html" %}
-{% block content%}
-<div style="background-color: #FAFAFA">
-    <h1>
-        <a href="{{ url_for('main.home',order='time') }}"
-            class="btn btn-link {% if active == 'home' %} btn-primary activenav{% endif %}">
-            <div style="color: black;font-size: 20px; {% if active == 'home' %} color:white; {% endif %}">
-                Posts
-            </div>
-        </a>
-
-        <a href="{{ url_for('main.family') }}"
-            class="btn btn-link {% if active == 'family' %} btn-primary activenav {% endif %}">
-            <div style="color: black;font-size: 20px;{% if active == 'family' %} color:white; {% endif %}">
-                Family
-            </div>
-        </a>
-
-        <a href="{{ url_for('main.chatroom') }}"
-            class="btn btn-link {% if active == 'chatroom' %} btn-primary  activenav {% endif %}">
-            <div style="color: black;font-size: 20px;{% if active == 'chatroom' %} color:white; {% endif %}">
-                Chat Rooms
-            </div>
-        </a>
-
-        <a href="{{ url_for('main.group') }}"
-            class="btn btn-link {% if active == 'group' %}btn-primary  activenav {% endif %}">
-            <div style="color: black;font-size: 20px;{% if active == 'group' %} color:white; {% endif %}">
-                Groups
-            </div>
-        </a>
-
-        <a href="{{ url_for('main.dating') }}"
-            class="btn  btn-link {% if active == 'dating' %}btn-primary  activenav {% endif %}">
-            <div style="color: black;font-size: 20px;{% if active == 'dating' %} color:white; {% endif %}">
-                Dating
-            </div>
-        </a>
-
-        <a href="{{ url_for('main.question',order='time') }}"
-            class="btn  btn-link {% if active == 'question' %} btn-primary  activenav {% endif %}">
-            <div style="color: black;font-size: 20px;{% if active == 'question' %} color:white; {% endif %}">
-                Question/Answers
-            </div>
-        </a>
-    </h1>
-</div>
-<div style="position:fixed; margin-top:75px; left:220px;color: green; height: 40px;">
-    <a class="prev" style="left:30%;" onclick="plusSlides(-1)">
-        &#10094;
-        Previous Question &emsp;&emsp;&emsp;&emsp;&emsp;
+{% extends "layout.html" %} {% block content%}
+<div style="background-color: #fafafa">
+  <h1>
+    <a
+      href="{{ url_for('main.home',order='time') }}"
+      class="btn btn-link {% if active == 'home' %} btn-primary activenav{% endif %}"
+    >
+      <div
+        style="color: black;font-size: 20px; {% if active == 'home' %} color:white; {% endif %}"
+      >
+        Posts
+      </div>
     </a>
-</div>
-<div style="position:fixed; margin-top:75px; right: 220px;color: green; height: 40px;">
 
-    <a class="next" style="right:30%;" onclick="plusSlides(1)">
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Next Question &#10095;
+    <a
+      href="{{ url_for('main.family') }}"
+      class="btn btn-link {% if active == 'family' %} btn-primary activenav {% endif %}"
+    >
+      <div
+        style="color: black;font-size: 20px;{% if active == 'family' %} color:white; {% endif %}"
+      >
+        Family
+      </div>
     </a>
+
+    <a
+      href="{{ url_for('main.chatroom') }}"
+      class="btn btn-link {% if active == 'chatroom' %} btn-primary activenav {% endif %}"
+    >
+      <div
+        style="color: black;font-size: 20px;{% if active == 'chatroom' %} color:white; {% endif %}"
+      >
+        Chat Rooms
+      </div>
+    </a>
+
+    <a
+      href="{{ url_for('main.group') }}"
+      class="btn btn-link {% if active == 'group' %}btn-primary activenav {% endif %}"
+    >
+      <div
+        style="color: black;font-size: 20px;{% if active == 'group' %} color:white; {% endif %}"
+      >
+        Groups
+      </div>
+    </a>
+
+    <a
+      href="{{ url_for('main.dating') }}"
+      class="btn btn-link {% if active == 'dating' %}btn-primary activenav {% endif %}"
+    >
+      <div
+        style="color: black;font-size: 20px;{% if active == 'dating' %} color:white; {% endif %}"
+      >
+        Dating
+      </div>
+    </a>
+
+    <a
+      href="{{ url_for('main.question',order='time') }}"
+      class="btn btn-link {% if active == 'question' %} btn-primary activenav {% endif %}"
+    >
+      <div
+        style="color: black;font-size: 20px;{% if active == 'question' %} color:white; {% endif %}"
+      >
+        Question/Answers
+      </div>
+    </a>
+  </h1>
+</div>
+<div
+  style="
+    position: fixed;
+    margin-top: 75px;
+    left: 220px;
+    color: green;
+    height: 40px;
+  "
+>
+  <a class="prev" style="left: 30%" onclick="plusSlides(-1)">
+    &#10094; Previous Post &emsp;&emsp;&emsp;&emsp;&emsp;
+  </a>
+</div>
+<div
+  style="
+    position: fixed;
+    margin-top: 75px;
+    right: 135px;
+    color: green;
+    height: 40px;
+  "
+>
+  <a class="next" style="right: 30%" onclick="plusSlides(1)">
+    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Next Post &#10095;
+  </a>
 </div>
 
 <div class="container">
-    <div style="float: left;margin-top: 200px; display:grid ">
-        <a href="{{ url_for('main.question',order='time') }}"
-            class="btn  {% if subactive == 'time' %} btn-green activenav{% endif %}">
-            <div style="color: black;font-size: 17px; {% if subactive == 'time' %} color:white; {% endif %}">
-                New
+  <div style="float: left; margin-top: 270px; display: grid">
+    <a
+      href="{{ url_for('main.question',order='time') }}"
+      class="btn {% if subactive == 'time' %} btn-green activenav{% endif %}"
+    >
+      <div
+        style="color: black;font-size: 17px; {% if subactive == 'time' %} color:white; {% endif %}"
+      >
+        New
+      </div>
+    </a>
+    <a
+      href="{{ url_for('main.question',order='popularity') }}"
+      class="btn {% if subactive == 'popularity' %} btn-green activenav{% endif %}"
+    >
+      <div
+        style="color: black;font-size: 17px; {% if subactive == 'popularity' %} color:white; {% endif %}"
+      >
+        Popular
+      </div>
+    </a>
+  </div>
+
+  <div
+    class="row"
+    style="padding-left: 50px; padding-top: 30px; margin-top: -92px"
+  >
+    <div class="my-5 col-xl-12" style="padding-top: 10px">
+      <hr />
+      {% if posts %}
+
+      <div class="slideshow-container row">
+        {% for post,like in posts.items() %}
+        <div
+          class="mySlides col-xl-5 card"
+          style="padding: 16px; margin: 16px; height: 240px"
+        >
+          <a
+            href="{{ url_for('main.user_profile', email=post.Authorq.Email) }}"
+          >
+            <div class="font-weight-bold mb-3" style="font-size: 15px">
+              <img
+                style="max-width: 30px; margin-right: 10px"
+                src="{{ url_for('static', filename='profile_pictures/' + post.Authorq.ProfilePicture) }}"
+                class="img-fluid z-depth-1 rounded-circle"
+                alt="Responsive image"
+              />{{ post.Authorq.FirstName }} {{ post.Authorq.LastName }} | {{
+              post.DatePosted.strftime('%m/%d/%Y') }}
             </div>
-        </a>
-        <a href="{{ url_for('main.question',order='popularity') }}"
-            class="btn  {% if subactive == 'popularity' %} btn-green activenav{% endif %}">
-            <div style="color: black;font-size: 17px; {% if subactive == 'popularity' %} color:white; {% endif %}">
-                Popular
+          </a>
+          <div class="row">
+            {% if post.ImageFile %}
+            <div class="col-lg-5 col-xl-4">
+              <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
+                <img
+                  class="img-fluid"
+                  src="{{ url_for('static', filename='question_images/' +
+                                        post.ImageFile) }}"
+                  alt="Post Image"
+                />
+                <a href="{{ url_for('posts.question', questionID=post.id) }}">
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
             </div>
-        </a>
-    </div>
-
-    <div class="row" style="padding-left:100px;padding-top: 30px; margin-top: -52px;">
-        <section class="my-5 col-xl-9 card" style="background-color: white; padding-top: 10px;">
-            <hr>
-            {% if posts %}
-
-            <div class="slideshow-container">
-
-                {% for post,like in posts.items() %}
-                <div class="mySlides">
-                    <a href="{{ url_for('main.user_profile', email=post.Authorq.Email) }}">
-                        <div class="font-weight-bold mb-3" style="font-size: 15px;"><img
-                                style="max-width: 30px; margin-right: 10px;"
-                                src="{{ url_for('static', filename='profile_pictures/' + post.Authorq.ProfilePicture) }}"
-                                class="img-fluid z-depth-1 rounded-circle"
-                                alt="Responsive image">{{ post.Authorq.FirstName }}
-                            {{ post.Authorq.LastName }} |
-                            {{ post.DatePosted.strftime('%m/%d/%Y') }}</div>
-                    </a>
-                    <div class="row">
-                        {% if post.ImageFile %}
-                        <div class="col-lg-5 col-xl-4">
-                            <div class="view overlay rounded z-depth-1-half mb-lg-0 mb-4">
-                                <img class="img-fluid" src="{{ url_for('static', filename='question_images/' +
-                                        post.ImageFile) }}" alt="Post Image">
-                                <a href="{{ url_for('posts.question', questionID=post.id) }}">
-                                    <div class="mask rgba-white-slight"></div>
-                                </a>
-                            </div>
-                        </div>
-                        {% endif %}
-                        <div class="col-lg-7 col-xl-8">
-                            <a href="{{ url_for('posts.question', questionID=post.id) }}" style="color: black;">
-                                <h5 class="font-weight-bold mb-3">{{ post.Title }} <p
-                                        style="font-size: 15px;color: indigo;">{{ like }} likes</p>
-                                </h5>
-                            </a>
-                            {% if post.Content[:100] %}
-                            <p class="dark-grey-text">{{ post.Content[:100] + (post.Content[100:] and '...') }}</p>
-                            {% endif %}
-
-
-                        </div>
-                    </div>
-                    <hr class="my-5">
-                </div>
-                {% endfor %}
+            {% endif %}
+            <div class="col-lg-7 col-xl-8">
+              <a
+                href="{{ url_for('posts.question', questionID=post.id) }}"
+                style="color: black"
+              >
+                <h5 class="font-weight-bold mb-3">
+                  {{ post.Title }}
+                  <p style="font-size: 15px; color: indigo">{{ like }} likes</p>
+                </h5>
+              </a>
+              {% if post.Content[:100] %}
+              <p class="dark-grey-text">
+                {{ post.Content[:70] + (post.Content[70:] and '...') }}
+              </p>
+              {% endif %}
             </div>
+          </div>
+          <hr class="my-5" />
+        </div>
+        {% endfor %}
+      </div>
     </div>
     {% else %}
-    <img src="{{ url_for('static', filename='socialize.png') }}" alt="">
-    <h3 class=" text-center">There are no Questions to Answer.</h3>
+    <img src="{{ url_for('static', filename='socialize.png') }}" alt="" />
+    <h3 class="text-center">There are no Questions to Answer.</h3>
     {% endif %}
-    </section>
-    <div> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-        <a href="{{ url_for('main.create_question_post') }}" class="btn btn-primary waves-effect">
-            <div style="font-size: 20px">
-                Ask a question
-            </div>
-        </a>
-    </div>
+  </div>
+  <div>
+    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+    <a
+      href="{{ url_for('main.create_question_post') }}"
+      class="btn btn-primary waves-effect"
+    >
+      <div style="font-size: 20px">Ask a question</div>
+    </a>
+  </div>
 </div>
 
 {% endblock %}
