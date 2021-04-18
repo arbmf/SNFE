@@ -24,8 +24,11 @@ def home(order='time'):
     interests = Interest.query.all()
 
     if form.validate_on_submit():
-        role = Role(name="user")
-        db.session.add(role)
+        user_role = Role(name="user")
+        db.session.add(user_role)
+        db.session.commit()
+        admin_role = Role(name="admin")
+        db.session.add(admin_role)
         db.session.commit()
         firstName = form.firstName.data.capitalize()
         lastName = form.lastName.data.capitalize()
