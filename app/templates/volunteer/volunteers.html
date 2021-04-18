@@ -25,28 +25,27 @@
     </a>
   </h1>
 </div>
-<div style="position: relative; color: green; height: 40px">
-  <a class="prev" style="left: 30%" onclick="plusSlides(-1)">
-    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&#10094;
-    Previous Post
+<div style="position: fixed; color: green; height: 40px; margin-top: 140px">
+  <a class="prev" style="position: fixed; left: 0px" onclick="plusSlides(-1)">
+    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&#10094; Previous Page
   </a>
-  <a class="next" style="right: 30%" onclick="plusSlides(1)">
-    &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-    Next Post &#10095;
+  <a class="next" style="position: fixed; right: 120px" onclick="plusSlides(1)">
+    Next Page &#10095;
   </a>
 </div>
-<div class="container" style="padding-left: 250px">
-  <div class="row" style="margin-top: -52px">
+<div class="container" style="padding-left: 100px">
+  <div class="row" style="padding-left: 50px; padding-top: 30px; margin-top: -92px">
     <!-- Section: Blog v.3 -->
-    <section
-      class="my-5 col-xl-9 card"
-      style="background-color: white; padding-top: 10px"
-    >
+
+    <div class="my-5 col-xl-12" style="padding-top: 10px">
       <hr />
       {% if posts %}
-      <div class="slideshow-container">
+      <div class="slideshow-container row">
         {% for post in posts %}
-        <div class="mySlides">
+        <div
+          class="mySlides col-xl-5 card"
+          style="padding: 16px; margin: 16px; height: 240px"
+        >
           <!-- Grid row -->
           <div class="row">
             {% if post.ImageFile %}
@@ -105,13 +104,13 @@
     </section>
     <!-- Section: Blog v.3 -->
 
-    <section class="my-5 col-xl-3" style="padding-top: 10px"></section>
+    <div class="my-5 col-xl-3" style="padding-top: 10px"></div>
   </div>
   <div>
     &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
     &emsp;&emsp;&emsp;
     <a
-      style="margin-left: -30px"
+      style="margin-left: 0px"
       href="{{ url_for('main.create_volunteer_post') }}"
       class="btn btn-primary waves-effect"
     >

@@ -31,7 +31,10 @@
     ></script>
     <script>
       var slideIndex = 1;
-      showSlides(slideIndex);
+
+      $(document).ready(function () {
+        showSlides(slideIndex);
+      });
 
       function plusSlides(n) {
         showSlides((slideIndex += n));
