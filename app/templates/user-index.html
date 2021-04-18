@@ -166,7 +166,6 @@
 </style>
 
 <!-- Button to Open the Modal -->
-
 <!-- The Modal -->
 <div class="modal fade" id="myModal">
     <div class="modal-dialog modal-lg">
@@ -212,7 +211,13 @@
         </div>
     </div>
 </div>
-
+{% if user_interests|length==0 %}
+<script>
+    $(document).ready(function () {
+        $('#myModal').modal('show')
+    });
+</script>
+{% endif %}
 <div style="background-color: #FAFAFA">
     <h1>
         <a href="{{ url_for('main.home',order='time') }}"
@@ -278,14 +283,14 @@
         Previous Post &emsp;&emsp;&emsp;&emsp;&emsp;
     </a>
 </div>
-<div style="position:fixed; margin-top:75px; right: 220px;color: green; height: 40px;">
+<div style="position:fixed; margin-top:75px; right: 135px;color: green; height: 40px;">
 
     <a class="next" style="right:30%;" onclick="plusSlides(1)">
         &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Next Post &#10095;
     </a>
 </div>
 <div class="container" >
-    <div style="float: left;margin-top: 200px; display:grid ">
+    <div style="float: left;margin-top: 270px; display:grid ">
         <a href="{{ url_for('main.home',order='time') }}"
             class="btn  {% if subactive == 'time' %} btn-green activenav{% endif %}">
             <div style="color: black;font-size: 17px; {% if subactive == 'time' %} color:white; {% endif %}">
@@ -299,15 +304,15 @@
             </div>
         </a>
 </div>
-    <div class="row" style="padding-left:100px;padding-top: 30px; margin-top: -52px;">
-        <section class="my-5 col-xl-9 card" style="background-color: white; padding-top: 10px;">
+    <div class="row" style="padding-left:50px;padding-top: 30px; margin-top: -92px;">
+        <div class="my-5 col-xl-12 " style="padding-top: 10px; ">
             <hr>
             {% if posts %}
 
-            <div class="slideshow-container">
+            <div class="slideshow-container row">
 
                 {% for post,like in posts.items() %}
-                <div class="mySlides">
+                <div class="mySlides col-xl-5 card" style="padding: 16px; margin: 16px; height:240px">
                     <a href="{{ url_for('main.user_profile', email=post.Author.Email) }}">
                         <div class="font-weight-bold mb-3" style="font-size: 15px;"><img
                                 style="max-width: 30px; margin-right: 10px;"
@@ -336,13 +341,12 @@
                                 </h5>
                             </a>
                             {% if post.Content[:100] %}
-                            <p class="dark-grey-text">{{ post.Content[:100] + (post.Content[100:] and '...') }}</p>
+                            <p class="dark-grey-text">{{ post.Content[:75] + (post.Content[75:] and '...') }}</p>
                             {% endif %}
 
 
                         </div>
                     </div>
-                    <hr class="my-5">
                 </div>
                 {% endfor %}
             </div>

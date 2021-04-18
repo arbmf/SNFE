@@ -1,6 +1,7 @@
 $(document).ready(function () {
   // image gallery
   // init the state from the input
+  showSlides(1);
   $(".image-checkbox").each(function () {
     if ($(this).find('input[type="checkbox"]').first().attr("checked")) {
       $(this).addClass("image-checkbox-checked");
