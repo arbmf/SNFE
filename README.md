@@ -1,3 +1,4 @@
+![add_friends](https://user-images.githubusercontent.com/9322090/115144615-4127bc00-a06b-11eb-9186-af0d600d7ef4.png)
 
 # SNFE
 
