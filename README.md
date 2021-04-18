@@ -1,5 +1,3 @@
-![add_friends](https://user-images.githubusercontent.com/9322090/115144615-4127bc00-a06b-11eb-9186-af0d600d7ef4.png)
-
 # SNFE
 
 A social network for elders.
@@ -42,7 +40,8 @@ A social network for elders.
 ![health](https://user-images.githubusercontent.com/9322090/115143949-9eba0980-a067-11eb-99b3-95eb369a28ed.png)
 ![profile1](https://user-images.githubusercontent.com/9322090/115143952-a083cd00-a067-11eb-8895-6f2c04f9f5fb.png)
 ![profile2](https://user-images.githubusercontent.com/9322090/115143953-a24d9080-a067-11eb-8a5b-d6c1ff74ac57.png)
-![add_friends](https://user-images.githubusercontent.com/9322090/115143955-a37ebd80-a067-11eb-9820-2499a254e15b.png)
+![add_friends](https://user-images.githubusercontent.com/9322090/115144615-4127bc00-a06b-11eb-9186-af0d600d7ef4.png)
+
 
 
 
